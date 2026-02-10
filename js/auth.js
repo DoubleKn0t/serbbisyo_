@@ -1,5 +1,5 @@
+// auth.js (safe version)
 
-// 🔹 DEBUG
 console.log("auth.js loaded");
 
 const auth = firebase.auth();
@@ -54,7 +54,3 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
-    alert(error.message);
-  }
-});
-
