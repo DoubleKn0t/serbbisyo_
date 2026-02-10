@@ -356,8 +356,7 @@
 <script src="../js/auth.js"></script>
 <script>
   // Account type selection
-  let selectedRole = "";
-
+  window.selectedRole = "";
   document.addEventListener("DOMContentLoaded", () => {
     document.querySelectorAll("[data-type], [data-role]").forEach(btn => {
       btn.addEventListener("click", () => {
@@ -370,7 +369,7 @@
         btn.classList.add("selected");
 
         // store role
-        selectedRole = btn.dataset.type || btn.dataset.role;
+        window.selectedRole = btn.dataset.type || btn.dataset.role;
         console.log("Selected role:", selectedRole);
       });
     });
@@ -383,5 +382,6 @@
 </body>
 
 </html>
+
 
 
