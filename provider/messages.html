@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SerbBisyo | Messages</title>
+  <link rel="stylesheet" href="../css/navbar.css">
+
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
+    body { background: #f9fafb; }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 24px 16px;
+    }
+
+    .messages-grid {
+      display: grid;
+      grid-template-columns: 380px 1fr;
+      gap: 0;
+      background: white;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      overflow: hidden;
+      height: calc(100vh - 120px);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+
+    /* LEFT SIDEBAR - CONVERSATIONS */
+    .conversations-panel {
+      border-right: 1px solid #e5e7eb;
+      display: flex;
+      flex-direction: column;
+      background: #fafafa;
+    }
+
+    .search-box {
+      padding: 16px;
+      border-bottom: 1px solid #e5e7eb;
+      background: white;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 10px 12px 10px 36px;
+      border: 1px solid #d1d5db;
+      border-radius: 10px;
+      font-size: 14px;
+      outline: none;
+      background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="%236b7280" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>') no-repeat 10px center;
+    }
+
+    .conversations-list {
+      overflow-y: auto;
+      flex: 1;
+    }
+
+    .conversation-item {
+      display: flex;
+      gap: 12px;
+      padding: 14px 16px;
+      cursor: pointer;
+      border-bottom: 1px solid #e5e7eb;
+      background: white;
+      transition: background 0.2s;
+      position: relative;
+    }
+
+    .conversation-item:hover {
+      background: #f9fafb;
+    }
+
+    .conversation-item.active {
+      background: #eff6ff;
+      border-left: 3px solid #2563eb;
+    }
+
+    .avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: #d1d5db;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      color: #4b5563;
+      font-size: 16px;
+      flex-shrink: 0;
+      position: relative;
+    }
+
+    .avatar.online::after {
+      content: '';
+      position: absolute;
+      bottom: 2px;
+      right: 2px;
+      width: 12px;
+      height: 12px;
+      background: #10b981;
+      border: 2px solid white;
+      border-radius: 50%;
+    }
+
+    .conversation-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .conversation-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 4px;
+    }
+
+    .conversation-name {
+      font-weight: 600;
+      color: #111827;
+      font-size: 14px;
+    }
+
+    .conversation-time {
+      font-size: 12px;
+      color: #6b7280;
+      white-space: nowrap;
+    }
+
+    .conversation-role {
+      font-size: 12px;
+      color: #6b7280;
+      margin-bottom: 4px;
+    }
+
+    .conversation-preview {
+      font-size: 13px;
+      color: #4b5563;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .unread-badge {
+      position: absolute;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: #10b981;
+      color: white;
+      border-radius: 50%;
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    /* RIGHT PANEL - CHAT */
+    .chat-panel {
+      display: flex;
+      flex-direction: column;
+      background: white;
+    }
+
+    .chat-header {
+      padding: 16px 24px;
+      border-bottom: 1px solid #e5e7eb;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: white;
+    }
+
+    .chat-header-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .chat-title {
+      font-weight: 600;
+      color: #111827;
+      font-size: 16px;
+      margin-bottom: 2px;
+    }
+
+    .chat-status {
+      font-size: 13px;
+      color: #10b981;
+    }
+
+    .chat-actions {
+      display: flex;
+      gap: 12px;
+    }
+
+    .icon-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      border: 1px solid #e5e7eb;
+      background: white;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #4b5563;
+      transition: all 0.2s;
+    }
+
+    .icon-btn:hover {
+      background: #f9fafb;
+      border-color: #d1d5db;
+    }
+
+    .chat-messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      background: #fafafa;
+    }
+
+    .message {
+      display: flex;
+      gap: 12px;
+      max-width: 70%;
+    }
+
+    .message.sent {
+      align-self: flex-end;
+      flex-direction: row-reverse;
+    }
+
+    .message-bubble {
+      background: #e5e7eb;
+      padding: 12px 16px;
+      border-radius: 16px;
+      color: #111827;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .message.sent .message-bubble {
+      background: #10b981;
+      color: white;
+    }
+
+    .message-time {
+      font-size: 11px;
+      color: #6b7280;
+      margin-top: 4px;
+      display: block;
+    }
+
+    .chat-input-area {
+      padding: 16px 24px;
+      border-top: 1px solid #e5e7eb;
+      background: white;
+    }
+
+    .chat-input-wrapper {
+      display: flex;
+      gap: 12px;
+      align-items: flex-end;
+    }
+
+    .chat-input {
+      flex: 1;
+      padding: 12px 16px;
+      border: 1px solid #d1d5db;
+      border-radius: 12px;
+      font-size: 14px;
+      outline: none;
+      resize: none;
+      font-family: Arial, sans-serif;
+      min-height: 44px;
+      max-height: 120px;
+    }
+
+    .chat-input:focus {
+      border-color: #2563eb;
+    }
+
+    .send-btn {
+      padding: 12px 24px;
+      background: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 14px;
+      transition: background 0.2s;
+    }
+
+    .send-btn:hover {
+      background: #1d4ed8;
+    }
+
+    .empty-state {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      color: #6b7280;
+      text-align: center;
+      padding: 40px;
+    }
+
+    .empty-state h3 {
+      color: #111827;
+      margin-bottom: 8px;
+    }
+
+    @media (max-width: 900px) {
+      .messages-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .conversations-panel {
+        border-right: none;
+      }
+      
+      .chat-panel {
+        display: none;
+      }
+      
+      .chat-panel.active {
+        display: flex;
+      }
+      
+      .conversations-panel.hidden {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="nav-inner">
+      <div class="nav-left">
+        <a href="index.html" class="logo-box">
+          <span class="logo-text">S</span>
+        </a>
+        <div class="nav-title">
+          <div class="nav-sub">SerbBisyo</div>
+        </div>
+      </div>
+
+      <div class="nav-links">
+        <a class="nav-link" href="../provider/dashboard.html">Home</a>
+        <a class="nav-link" href="../provider/opportunities.html">Available Jobs</a>
+        <a class="nav-link" href="../provider/certifications.html">Certifications</a>
+        <a class="nav-link" href="../provider/mock-interview.html">Mock Interview</a>
+        <a class="nav-link active" href="../provider/messages.html">Messages</a>
+        <a class="nav-link" href="../provider/profile.html">Profile</a>
+        <a class="nav-link" href="../provider/settings.html">Settings</a>
+        <button onclick="logout()" class="nav-link" style="border:none; background:transparent; cursor:pointer;">
+  Logout
+</button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="messages-grid">
+      
+      <!-- LEFT - CONVERSATIONS LIST -->
+      <div class="conversations-panel">
+        <div class="search-box">
+          <input type="text" class="search-input" placeholder="Search messages...">
+        </div>
+
+        <div class="conversations-list">
+          <!-- Conversation 1 - Active -->
+          <div class="conversation-item active">
+            <div class="avatar online">TV</div>
+            <div class="conversation-info">
+              <div class="conversation-header">
+                <div class="conversation-name">Washee Washee Laundry</div>
+                <div class="conversation-time">10 min ago</div>
+              </div>
+              <div class="conversation-role">Employer</div>
+              <div class="conversation-preview">Thanks for your interest! When can you start?</div>
+            </div>
+            <div class="unread-badge">2</div>
+          </div>
+
+          <!-- Conversation 2 -->
+          <div class="conversation-item">
+            <div class="avatar online">PS</div>
+            <div class="conversation-info">
+              <div class="conversation-header">
+                <div class="conversation-name">PSHT Construction Services</div>
+                <div class="conversation-time">1 hour ago</div>
+              </div>
+              <div class="conversation-role">Employer</div>
+              <div class="conversation-preview">Thank you for accepting the job!</div>
+            </div>
+          </div>
+
+          <!-- Conversation 3 -->
+          <div class="conversation-item">
+            <div class="avatar">HD</div>
+            <div class="conversation-info">
+              <div class="conversation-header">
+                <div class="conversation-name">Humphrey Dumpty</div>
+                <div class="conversation-time">3 hours ago</div>
+              </div>
+              <div class="conversation-role">Client</div>
+              <div class="conversation-preview">Can you send over your portfolio?</div>
+            </div>
+            <div class="unread-badge">1</div>
+          </div>
+
+          <!-- Conversation 4 -->
+          <div class="conversation-item">
+            <div class="avatar">AS</div>
+            <div class="conversation-info">
+              <div class="conversation-header">
+                <div class="conversation-name">Allan Salbes</div>
+                <div class="conversation-time">Yesterday</div>
+              </div>
+              <div class="conversation-role">Startup Founder</div>
+              <div class="conversation-preview">Looking forward to our call tomorrow</div>
+            </div>
+          </div>
+
+          <!-- Conversation 5 -->
+          <div class="conversation-item">
+            <div class="avatar">LC</div>
+            <div class="conversation-info">
+              <div class="conversation-header">
+                <div class="conversation-name">Local Coffee Roasters</div>
+                <div class="conversation-time">2 days ago</div>
+              </div>
+              <div class="conversation-role">Client</div>
+              <div class="conversation-preview">Great! Let's discuss the details</div>
+            </div>
+          </div>
+
+          <!-- Conversation 6 -->
+          <div class="conversation-item">
+            <div class="avatar">DM</div>
+            <div class="conversation-info">
+              <div class="conversation-header">
+                <div class="conversation-name">Digital Masters</div>
+                <div class="conversation-time">3 days ago</div>
+              </div>
+              <div class="conversation-role">Employer</div>
+              <div class="conversation-preview">We'd like to schedule an interview</div>
+            </div>
+          </div>
+
+          <!-- Conversation 7 -->
+          <div class="conversation-item">
+            <div class="avatar">RP</div>
+            <div class="conversation-info">
+              <div class="conversation-header">
+                <div class="conversation-name">Rachel Parks</div>
+                <div class="conversation-time">5 days ago</div>
+              </div>
+              <div class="conversation-role">Recruiter</div>
+              <div class="conversation-preview">Your application has been reviewed</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT - CHAT PANEL -->
+      <div class="chat-panel">
+        <div class="chat-header">
+          <div class="chat-header-left">
+            <div class="avatar online">WL</div>
+            <div>
+              <div class="chat-title">Washee Washee Laundry</div>
+              <div class="chat-status">Online</div>
+            </div>
+          </div>
+          <div class="chat-actions">
+            <button class="icon-btn" title="Call">📞</button>
+            <button class="icon-btn" title="Video Call">📹</button>
+            <button class="icon-btn" title="More">⋮</button>
+          </div>
+        </div>
+
+        <div class="chat-messages">
+          <!-- Received message -->
+          <div class="message">
+            <div class="avatar">WL</div>
+            <div>
+              <div class="message-bubble">
+                Hi Prince! We reviewed your application for the technician position and we're impressed with your background.
+                <span class="message-time">2:30 PM</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sent message -->
+          <div class="message sent">
+            <div>
+              <div class="message-bubble">
+                Thank you so much! I'm very excited about this opportunity. I'd love to learn more about the role and your team.
+                <span class="message-time">2:35 PM</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Received message -->
+          <div class="message">
+            <div class="avatar">WL</div>
+            <div>
+              <div class="message-bubble">
+                Great! We need someone to be able to move around and inspect our branches for potential machine failure. Your experience is exactly what we need.
+                <span class="message-time">2:40 PM</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sent message -->
+          <div class="message sent">
+            <div>
+              <div class="message-bubble">
+                That sounds perfect!  
+                <span class="message-time">2:45 PM</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Received message -->
+          <div class="message">
+            <div class="avatar">WL</div>
+            <div>
+              <div class="message-bubble">
+                Excellent! We saw your certifications. Would you be available for a technical interview next week?
+                <span class="message-time">2:50 PM</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="chat-input-area">
+          <div class="chat-input-wrapper">
+            <textarea class="chat-input" placeholder="Type your message..." rows="1"></textarea>
+            <button class="send-btn">Send</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    // Auto-resize textarea
+    const textarea = document.querySelector('.chat-input');
+    if (textarea) {
+      textarea.addEventListener('input', function() {
+        this.style.height = 'auto';
+        this.style.height = Math.min(this.scrollHeight, 120) + 'px';
+      });
+    }
+
+    // Mobile conversation switching
+    const conversationItems = document.querySelectorAll('.conversation-item');
+    conversationItems.forEach(item => {
+      item.addEventListener('click', function() {
+        if (window.innerWidth <= 900) {
+          document.querySelector('.conversations-panel').classList.add('hidden');
+          document.querySelector('.chat-panel').classList.add('active');
+        }
+        
+        conversationItems.forEach(i => i.classList.remove('active'));
+        this.classList.add('active');
+      });
+    });
+  </script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+  <script src="/js/firebase.js"></script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/auth-check.js"></script>
+
+</body>
+</html>

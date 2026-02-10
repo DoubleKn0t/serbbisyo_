@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SerbBisyo | Opportunities</title>
+  <link rel="stylesheet" href="../css/navbar.css">
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f9fafb;
+      color: #111827;
+    }
+    /* LAYOUT */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 24px 16px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 18px;
+    }
+
+    @media (min-width: 1024px) {
+      .grid {
+        grid-template-columns: 320px 1fr;
+      }
+    }
+
+    .card {
+      background: white;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    }
+
+    .card-pad {
+      padding: 18px;
+    }
+
+    /* FILTERS */
+    .filters-title {
+      font-weight: 700;
+      margin: 0 0 12px;
+    }
+
+    .filter-btn {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 10px;
+      border-radius: 10px;
+      border: 1px solid transparent;
+      background: transparent;
+      cursor: pointer;
+      font-size: 14px;
+      color: #374151;
+      text-align: left;
+    }
+
+    .filter-btn:hover {
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+    }
+
+    .filter-btn.active {
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      color: #1d4ed8;
+    }
+
+    .small-muted {
+      font-size: 12px;
+      color: #6b7280;
+    }
+
+    .input, .select {
+      width: 100%;
+      padding: 10px 10px;
+      border: 1px solid #d1d5db;
+      border-radius: 10px;
+      font-size: 14px;
+      outline: none;
+      box-sizing: border-box;
+    }
+
+    .section-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: #374151;
+      margin: 14px 0 10px;
+    }
+
+    /* MAIN */
+    .search-bar {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .search-btn {
+      padding: 10px 14px;
+      background: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .search-btn:hover {
+      background: #1d4ed8;
+    }
+
+    .banner {
+      background: linear-gradient(to right, #2563eb, #7c3aed);
+      color: white;
+      border-radius: 12px;
+      padding: 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .banner h3 {
+      margin: 0 0 4px;
+      font-size: 16px;
+    }
+
+    .banner p {
+      margin: 0;
+      font-size: 13px;
+      color: rgba(255,255,255,0.85);
+    }
+
+    /* LISTINGS */
+    .listing {
+      padding: 18px;
+    }
+
+    .listing-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .job-title {
+      font-size: 18px;
+      font-weight: 700;
+      margin: 0 0 6px;
+    }
+
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 16px;
+      font-size: 13px;
+      color: #4b5563;
+      margin-bottom: 10px;
+    }
+
+    .salary {
+      font-weight: 700;
+      color: #15803d;
+    }
+
+    .desc {
+      font-size: 14px;
+      color: #374151;
+      line-height: 1.5;
+      margin: 0 0 10px;
+    }
+
+    .skills {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .skill-pill {
+      font-size: 12px;
+      background: #f3f4f6;
+      padding: 6px 10px;
+      border-radius: 999px;
+      color: #374151;
+    }
+
+    .urgent {
+      font-size: 12px;
+      background: #fee2e2;
+      color: #b91c1c;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-weight: 700;
+    }
+
+    .verified {
+      font-size: 12px;
+      background: #dbeafe;
+      color: #1d4ed8;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-weight: 700;
+    }
+
+    .match-circle {
+      width: 64px;
+      height: 64px;
+      border-radius: 999px;
+      border: 4px solid #16a34a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      color: #15803d;
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px solid #e5e7eb;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      flex: 1;
+      min-width: 140px;
+      padding: 10px 14px;
+      background: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    .btn-primary:hover {
+      background: #1d4ed8;
+    }
+
+    .btn-secondary {
+      padding: 10px 14px;
+      background: white;
+      border: 1px solid #d1d5db;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 600;
+      color: #374151;
+    }
+
+    .btn-secondary:hover {
+      background: #f9fafb;
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="nav-inner">
+      <div class="nav-left">
+        <a href="index.html" class="logo-box">
+          <span class="logo-text">S</span>
+        </a>
+        <div class="nav-title">
+          <div class="nav-sub">SerbBisyo</div>
+        </div>
+      </div>
+
+      <div class="nav-links">
+        <a class="nav-link" href="../provider/dashboard.html">Home</a>
+        <a class="nav-link active" href="../provider/opportunities.html">Available Jobs</a>
+        <a class="nav-link" href="../provider/certifications.html">Certifications</a>
+        <a class="nav-link" href="../provider/mock-interview.html">Mock Interview</a>
+        <a class="nav-link" href="../provider/messages.html">Messages</a>
+        <a class="nav-link" href="../provider/profile.html">Profile</a>
+        <a class="nav-link" href="../provider/settings.html">Settings</a>
+        <button onclick="logout()" class="nav-link" style="border:none; background:transparent; cursor:pointer;">
+  Logout
+</button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="grid">
+
+      <!-- FILTERS -->
+      <div class="card card-pad">
+        <h3 class="filters-title">Filters</h3>
+
+        <div class="section-title">Category</div>
+
+        <button class="filter-btn active" data-category="all">
+          <span>All Opportunities</span>
+          <span class="small-muted">847</span>
+        </button>
+
+        <button class="filter-btn" data-category="full-time">
+          <span>Full-Time</span>
+          <span class="small-muted">342</span>
+        </button>
+
+        <button class="filter-btn" data-category="part-time">
+          <span>Part-Time</span>
+          <span class="small-muted">189</span>
+        </button>
+
+        <button class="filter-btn" data-category="gig">
+          <span>Gigs & Freelance</span>
+          <span class="small-muted">256</span>
+        </button>
+
+        <button class="filter-btn" data-category="startup">
+          <span>Startups</span>
+          <span class="small-muted">60</span>
+        </button>
+
+        <div class="section-title">Distance</div>
+        <select class="select">
+          <option>Within 5 km</option>
+          <option>Within 10 km</option>
+          <option>Within 25 km</option>
+          <option>Within 50 km</option>
+          <option>Remote</option>
+        </select>
+
+        <div class="section-title">Rate Range (PHP)</div>
+        <input class="input" type="number" placeholder="Min (PHP)" />
+        <div style="height:8px;"></div>
+        <input class="input" type="number" placeholder="Max (PHP)" />
+
+        <div class="section-title">Additional</div>
+        <label style="display:flex; gap:8px; font-size:14px; color:#374151; margin-bottom:8px;">
+          <input type="checkbox" />
+          Verified employers only
+        </label>
+        <label style="display:flex; gap:8px; font-size:14px; color:#374151; margin-bottom:8px;">
+          <input type="checkbox" />
+          Urgent hiring
+        </label>
+        <label style="display:flex; gap:8px; font-size:14px; color:#374151;">
+          <input type="checkbox" />
+          Remote options
+        </label>
+      </div>
+
+      <!-- MAIN -->
+      <div style="display:flex; flex-direction:column; gap:18px;">
+
+        <!-- SEARCH -->
+        <div class="card card-pad">
+          <div class="search-bar">
+            <input class="input" type="text" placeholder="Search opportunities by title, company, or skills..." />
+            <button class="search-btn">Search</button>
+          </div>
+        </div>
+
+        <!-- LISTINGS -->
+        <div class="card listing" data-category="full-time" data-verified="true" data-urgent="false">
+          <div class="listing-top">
+            <div style="flex:1;">
+              <h3 class="job-title">[Employment] Sales Representative</h3>
+
+              <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:8px;">
+                <span class="verified">✓ Verified</span>
+              </div>
+
+              <div class="meta">
+                <span><b>Company:</b> ABC Corporation</span>
+                <span><b>Location:</b> Manila, Metro Manila</span>
+                <span><b>Posted:</b> 5 days ago</span>
+                <span><b>Type:</b> Full-Time</span>
+                <span class="salary"><b>Rate:</b> PHP 25,000 - 35,000 / month</span>
+                <span><b>Applicants:</b> 15</span>
+              </div>
+
+              <p class="desc">
+                Join our sales team and help businesses grow. Experience in B2B sales preferred.
+              </p>
+
+              <div class="skills">
+                <span class="small-muted">Required:</span>
+                <span class="skill-pill">Sales</span>
+                <span class="skill-pill">Communication</span>
+                <span class="skill-pill">Customer Service</span>
+              </div>
+            </div>
+
+            <div style="text-align:center;">
+              <div class="match-circle">75%</div>
+              <div class="small-muted" style="margin-top:6px;">Match</div>
+            </div>
+          </div>
+
+          <div class="actions">
+            <button class="btn-primary">Apply Now</button>
+            <button class="btn-secondary">View Details</button>
+            <button class="btn-secondary">Save</button>
+          </div>
+        </div>
+
+        <!-- PLACEHOLDER - Gigs & Freelance Category -->
+        <div class="card listing" data-category="part-time" data-verified="false" data-urgent="false">
+          <div class="listing-top">
+            <div style="flex:1;">
+              <h3 class="job-title">[Gig] Freelance Content Writer</h3>
+
+              <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:8px;">
+              </div>
+
+              <div class="meta">
+                <span><b>Company:</b> Content Agency</span>
+                <span><b>Location:</b> Remote Work</span>
+                <span><b>Posted:</b> 1 day ago</span>
+                <span><b>Type:</b> Part-Time</span>
+                <span class="salary"><b>Rate:</b> PHP 500 - 1,000 / article</span>
+                <span><b>Applicants:</b> 8</span>
+              </div>
+
+              <p class="desc">
+                Looking for talented writers to create blog posts and articles on various topics.
+              </p>
+
+              <div class="skills">
+                <span class="small-muted">Required:</span>
+                <span class="skill-pill">Writing</span>
+                <span class="skill-pill">Research</span>
+                <span class="skill-pill">SEO</span>
+              </div>
+            </div>
+
+            <div style="text-align:center;">
+              <div class="match-circle">70%</div>
+              <div class="small-muted" style="margin-top:6px;">Match</div>
+            </div>
+          </div>
+
+          <div class="actions">
+            <button class="btn-primary">Apply Now</button>
+            <button class="btn-secondary">View Details</button>
+            <button class="btn-secondary">Save</button>
+          </div>
+        </div>
+
+        <!-- PLACEHOLDER - Service Requests Category -->
+        <div class="card listing" data-category="gig" data-verified="true" data-urgent="true">
+          <div class="listing-top">
+            <div style="flex:1;">
+              <h3 class="job-title">[Service] Home Cleaning Service Needed</h3>
+
+              <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:8px;">
+                <span class="verified">✓ Verified</span>
+                <span class="urgent">⚡ Urgent</span>
+              </div>
+
+              <div class="meta">
+                <span><b>Client:</b> Private Homeowner</span>
+                <span><b>Location:</b> Pasig City</span>
+                <span><b>Posted:</b> Today</span>
+                <span><b>Type:</b> Service Request</span>
+                <span class="salary"><b>Rate:</b> PHP 1,500 - 2,500 / day</span>
+                <span><b>Applicants:</b> 3</span>
+              </div>
+
+              <p class="desc">
+                Need deep cleaning service for a 3-bedroom house. Must be available this weekend.
+              </p>
+
+              <div class="skills">
+                <span class="small-muted">Required:</span>
+                <span class="skill-pill">Cleaning</span>
+                <span class="skill-pill">Reliability</span>
+                <span class="skill-pill">Attention to Detail</span>
+              </div>
+            </div>
+
+            <div style="text-align:center;">
+              <div class="match-circle">65%</div>
+              <div class="small-muted" style="margin-top:6px;">Match</div>
+            </div>
+          </div>
+
+          <div class="actions">
+            <button class="btn-primary">Apply Now</button>
+            <button class="btn-secondary">View Details</button>
+            <button class="btn-secondary">Save</button>
+          </div>
+        </div>
+
+        <!-- PLACEHOLDER - Projects Category -->
+        <div class="card listing" data-category="startup" data-verified="false" data-urgent="false">
+          <div class="listing-top">
+            <div style="flex:1;">
+              <h3 class="job-title">[Project] Mobile App Development</h3>
+
+              <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:8px;">
+              </div>
+
+              <div class="meta">
+                <span><b>Company:</b> Startup Inc</span>
+                <span><b>Location:</b> Remote</span>
+                <span><b>Posted:</b> 3 days ago</span>
+                <span><b>Type:</b> Project-Based</span>
+                <span class="salary"><b>Rate:</b> PHP 80,000 - 150,000 / project</span>
+                <span><b>Applicants:</b> 12</span>
+              </div>
+
+              <p class="desc">
+                Seeking developers to build a mobile app for food delivery. 3-month timeline expected.
+              </p>
+
+              <div class="skills">
+                <span class="small-muted">Required:</span>
+                <span class="skill-pill">React Native</span>
+                <span class="skill-pill">Mobile Development</span>
+                <span class="skill-pill">API Integration</span>
+              </div>
+            </div>
+
+            <div style="text-align:center;">
+              <div class="match-circle">92%</div>
+              <div class="small-muted" style="margin-top:6px;">Match</div>
+            </div>
+          </div>
+
+          <div class="actions">
+            <button class="btn-primary">Apply Now</button>
+            <button class="btn-secondary">View Details</button>
+            <button class="btn-secondary">Save</button>
+          </div>
+        </div>
+
+        <!-- MORE PLACEHOLDERS - Additional Employment -->
+        <div class="card listing" data-category="full-time" data-verified="true" data-urgent="true">
+          <div class="listing-top">
+            <div style="flex:1;">
+              <h3 class="job-title">[Employment] Customer Service Representative</h3>
+
+              <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:8px;">
+                <span class="verified">✓ Verified</span>
+                <span class="urgent">⚡ Urgent</span>
+              </div>
+
+              <div class="meta">
+                <span><b>Company:</b> Call Center Solutions</span>
+                <span><b>Location:</b> Ortigas, Pasig</span>
+                <span><b>Posted:</b> 1 day ago</span>
+                <span><b>Type:</b> Full-Time</span>
+                <span class="salary"><b>Rate:</b> PHP 20,000 - 28,000 / month</span>
+                <span><b>Applicants:</b> 45</span>
+              </div>
+
+              <p class="desc">
+                Handle customer inquiries and provide excellent service. Night shift available with premium pay.
+              </p>
+
+              <div class="skills">
+                <span class="small-muted">Required:</span>
+                <span class="skill-pill">English Proficiency</span>
+                <span class="skill-pill">Communication</span>
+                <span class="skill-pill">Problem Solving</span>
+              </div>
+            </div>
+
+            <div style="text-align:center;">
+              <div class="match-circle">80%</div>
+              <div class="small-muted" style="margin-top:6px;">Match</div>
+            </div>
+          </div>
+
+          <div class="actions">
+            <button class="btn-primary">Apply Now</button>
+            <button class="btn-secondary">View Details</button>
+            <button class="btn-secondary">Save</button>
+          </div>
+        </div>
+
+        <!-- MORE PLACEHOLDERS - Additional Gig -->
+        <div class="card listing" data-category="part-time" data-verified="true" data-urgent="false">
+          <div class="listing-top">
+            <div style="flex:1;">
+              <h3 class="job-title">[Gig] Social Media Manager</h3>
+
+              <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:8px;">
+                <span class="verified">✓ Verified</span>
+              </div>
+
+              <div class="meta">
+                <span><b>Company:</b> Small Business Owner</span>
+                <span><b>Location:</b> Remote</span>
+                <span><b>Posted:</b> 2 days ago</span>
+                <span><b>Type:</b> Part-Time</span>
+                <span class="salary"><b>Rate:</b> PHP 15,000 - 25,000 / month</span>
+                <span><b>Applicants:</b> 18</span>
+              </div>
+
+              <p class="desc">
+                Manage social media accounts for a local restaurant. 10-15 hours per week.
+              </p>
+
+              <div class="skills">
+                <span class="small-muted">Required:</span>
+                <span class="skill-pill">Social Media</span>
+                <span class="skill-pill">Content Creation</span>
+                <span class="skill-pill">Canva</span>
+              </div>
+            </div>
+
+            <div style="text-align:center;">
+              <div class="match-circle">78%</div>
+              <div class="small-muted" style="margin-top:6px;">Match</div>
+            </div>
+          </div>
+
+          <div class="actions">
+            <button class="btn-primary">Apply Now</button>
+            <button class="btn-secondary">View Details</button>
+            <button class="btn-secondary">Save</button>
+          </div>
+        </div>
+
+        <!-- MORE PLACEHOLDERS - Additional Service Request -->
+        <div class="card listing" data-category="gig" data-verified="false" data-urgent="false">
+          <div class="listing-top">
+            <div style="flex:1;">
+              <h3 class="job-title">[Service] Plumbing Repair Needed</h3>
+
+              <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:8px;">
+              </div>
+
+              <div class="meta">
+                <span><b>Client:</b> Residential Property</span>
+                <span><b>Location:</b> Quezon City</span>
+                <span><b>Posted:</b> 4 hours ago</span>
+                <span><b>Type:</b> Service Request</span>
+                <span class="salary"><b>Rate:</b> PHP 800 - 1,500 / visit</span>
+                <span><b>Applicants:</b> 5</span>
+              </div>
+
+              <p class="desc">
+                Kitchen sink is leaking. Need a reliable plumber for quick repair.
+              </p>
+
+              <div class="skills">
+                <span class="small-muted">Required:</span>
+                <span class="skill-pill">Plumbing</span>
+                <span class="skill-pill">Problem Solving</span>
+                <span class="skill-pill">Tools</span>
+              </div>
+            </div>
+
+            <div style="text-align:center;">
+              <div class="match-circle">60%</div>
+              <div class="small-muted" style="margin-top:6px;">Match</div>
+            </div>
+          </div>
+
+          <div class="actions">
+            <button class="btn-primary">Apply Now</button>
+            <button class="btn-secondary">View Details</button>
+            <button class="btn-secondary">Save</button>
+          </div>
+        </div>
+
+        <!-- MORE PLACEHOLDERS - Additional Project -->
+        <div class="card listing" data-category="startup" data-verified="true" data-urgent="true">
+          <div class="listing-top">
+            <div style="flex:1;">
+              <h3 class="job-title">[Project] Website Redesign</h3>
+
+              <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:8px;">
+                <span class="verified">✓ Verified</span>
+                <span class="urgent">⚡ Urgent</span>
+              </div>
+
+              <div class="meta">
+                <span><b>Company:</b> E-commerce Business</span>
+                <span><b>Location:</b> Hybrid - Makati</span>
+                <span><b>Posted:</b> 2 days ago</span>
+                <span><b>Type:</b> Project-Based</span>
+                <span class="salary"><b>Rate:</b> PHP 50,000 - 80,000 / project</span>
+                <span><b>Applicants:</b> 9</span>
+              </div>
+
+              <p class="desc">
+                Redesign our e-commerce website to improve user experience and conversion rates. 6-week deadline.
+              </p>
+
+              <div class="skills">
+                <span class="small-muted">Required:</span>
+                <span class="skill-pill">Web Design</span>
+                <span class="skill-pill">UX/UI</span>
+                <span class="skill-pill">WordPress</span>
+                <span class="skill-pill">E-commerce</span>
+              </div>
+            </div>
+
+            <div style="text-align:center;">
+              <div class="match-circle">85%</div>
+              <div class="small-muted" style="margin-top:6px;">Match</div>
+            </div>
+          </div>
+
+          <div class="actions">
+            <button class="btn-primary">Apply Now</button>
+            <button class="btn-secondary">View Details</button>
+            <button class="btn-secondary">Save</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Filter button interactions
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const listings = document.querySelectorAll('.listing');
+    const searchInput = document.querySelector('.search-bar .input');
+    const searchBtn = document.querySelector('.search-btn');
+    const distanceSelect = document.querySelector('.select');
+    const minSalaryInput = document.querySelectorAll('.input[type="number"]')[0];
+    const maxSalaryInput = document.querySelectorAll('.input[type="number"]')[1];
+    const verifiedCheckbox = document.querySelectorAll('input[type="checkbox"]')[0];
+    const urgentCheckbox = document.querySelectorAll('input[type="checkbox"]')[1];
+    const remoteCheckbox = document.querySelectorAll('input[type="checkbox"]')[2];
+
+    let currentCategory = 'all';
+
+    // Category filtering
+    filterButtons.forEach(button => {
+      button.addEventListener('click', function() {
+        filterButtons.forEach(btn => btn.classList.remove('active'));
+        this.classList.add('active');
+        currentCategory = this.getAttribute('data-category');
+        applyFilters();
+      });
+    });
+
+    // Search functionality
+    searchBtn.addEventListener('click', applyFilters);
+    searchInput.addEventListener('keyup', function(e) {
+      if (e.key === 'Enter') {
+        applyFilters();
+      }
+    });
+
+    // Real-time filtering on other inputs
+    distanceSelect.addEventListener('change', applyFilters);
+    minSalaryInput.addEventListener('input', applyFilters);
+    maxSalaryInput.addEventListener('input', applyFilters);
+    verifiedCheckbox.addEventListener('change', applyFilters);
+    urgentCheckbox.addEventListener('change', applyFilters);
+    remoteCheckbox.addEventListener('change', applyFilters);
+
+    function applyFilters() {
+      const searchTerm = searchInput.value.toLowerCase();
+      const minSalary = minSalaryInput.value ? parseInt(minSalaryInput.value) : 0;
+      const maxSalary = maxSalaryInput.value ? parseInt(maxSalaryInput.value) : Infinity;
+      const verifiedOnly = verifiedCheckbox.checked;
+      const urgentOnly = urgentCheckbox.checked;
+      const remoteOnly = remoteCheckbox.checked;
+
+      listings.forEach(listing => {
+        let show = true;
+
+        // Get listing data
+        const title = listing.querySelector('.job-title').textContent.toLowerCase();
+        const company = listing.querySelector('.meta span:first-child').textContent.toLowerCase();
+        const type = listing.querySelector('.meta span:nth-child(4)').textContent.toLowerCase();
+        const salaryText = listing.querySelector('.salary').textContent;
+        const hasVerified = listing.querySelector('.verified') !== null;
+        const hasUrgent = listing.querySelector('.urgent') !== null;
+        const skills = Array.from(listing.querySelectorAll('.skill-pill')).map(s => s.textContent.toLowerCase()).join(' ');
+
+        // Extract salary range
+        const salaryMatch = salaryText.match(/PHP ([\d,]+) - ([\d,]+)/);
+        const listingMinSalary = salaryMatch ? parseInt(salaryMatch[1].replace(/,/g, '')) : 0;
+        const listingMaxSalary = salaryMatch ? parseInt(salaryMatch[2].replace(/,/g, '')) : 0;
+
+        // Category filter
+        if (currentCategory !== 'all') {
+          if (currentCategory === 'full-time' && !type.includes('full-time')) show = false;
+          if (currentCategory === 'part-time' && !type.includes('part-time')) show = false;
+          if (currentCategory === 'gig' && !type.includes('freelance') && !type.includes('gig') && !type.includes('service request')) show = false;
+          if (currentCategory === 'startup' && !type.includes('project')) show = false;
+        }
+
+        // Search filter
+        if (searchTerm && !title.includes(searchTerm) && !company.includes(searchTerm) && !skills.includes(searchTerm)) {
+          show = false;
+        }
+
+        // Salary filter
+        if (minSalary > 0 && listingMaxSalary < minSalary) show = false;
+        if (maxSalary < Infinity && listingMinSalary > maxSalary) show = false;
+
+        // Verified filter
+        if (verifiedOnly && !hasVerified) show = false;
+
+        // Urgent filter
+        if (urgentOnly && !hasUrgent) show = false;
+
+        // Remote filter
+        if (remoteOnly && !type.includes('remote')) show = false;
+
+        // Show/hide listing
+        if (show) {
+          listing.style.display = 'block';
+        } else {
+          listing.style.display = 'none';
+        }
+      });
+    }
+    </script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+    <script src="/js/firebase.js"></script>
+    <script src="/js/auth.js"></script>
+    <script src="/js/auth-check.js"></script>
+
+
+
+
+</body>
+</html>
