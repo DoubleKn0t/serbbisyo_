@@ -1,45 +1,51 @@
 
+// 🔹 DEBUG
+console.log("auth.js loaded");
+
 const auth = firebase.auth();
 const db = firebase.firestore();
 
-function loginUser(email, password) {
-  auth.signInWithEmailAndPassword(email, password)
-    .then((userCredential) => {
-      const uid = userCredential.user.uid;
+const signupForm = document.getElementById("signupForm");
 
-      // Get role from Firestore
-      return db.collection('users').doc(uid).get();
-    })
-    .then((doc) => {
-      if (!doc.exists) {
-        throw new Error("User record not found.");
-      }
+signupForm.addEventListener("submit", async (e) => {
+  e.preventDefault(); // 🔥 THIS STOPS PAGE RELOAD
 
-      const role = doc.data().role;
+  console.log("Signup form submitted");
 
-      if (role === "provider") {
-        window.location.href = "/provider/dashboard.html";
-      } else if (role === "client") {
-        window.location.href = "/client/c_dashboard.html";
-      } else {
-        throw new Error("Invalid user role.");
-      }
-    })
-    .catch((error) => {
-      console.error("Login error:", error);
-      alert(error.message);
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value.trim();
+  const confirmPassword = document.getElementById("confirmPassword").value.trim();
+  const firstName = document.getElementById("firstName").value.trim();
+  const lastName = document.getElementById("lastName").value.trim();
+
+  if (password !== confirmPassword) {
+    alert("Passwords do not match");
+    return;
+  }
+
+  try {
+    // 🔹 Create Auth account
+    const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+    const user = userCredential.user;
+
+    console.log("User created:", user.uid);
+
+    // 🔹 Save user profile to Firestore
+    await db.collection("users").doc(user.uid).set({
+      firstName,
+      lastName,
+      email,
+      role: window.selectedRole || "client",
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
     });
-}
 
-  // Logout function (NOW PROPERLY CLOSED)
-function logout() {
-  auth.signOut()
-    .then(() => {
-      window.location.href = "/index.html";
-    })
-    .catch((error) => {
-      console.error("Logout error:", error);
-      alert("Failed to log out.");
-    });
-}
+    console.log("User profile saved");
 
+    // 🔹 Redirect AFTER success
+    window.location.href = "/index.html";
+
+  } catch (error) {
+    console.error(error);
+    alert(error.message);
+  }
+});
