@@ -5,47 +5,56 @@ console.log("auth.js loaded");
 const auth = firebase.auth();
 const db = firebase.firestore();
 
-const signupForm = document.getElementById("signupForm");
+document.addEventListener("DOMContentLoaded", () => {
+  const signupForm = document.getElementById("signupForm");
 
-signupForm.addEventListener("submit", async (e) => {
-  e.preventDefault(); // 🔥 THIS STOPS PAGE RELOAD
-
-  console.log("Signup form submitted");
-
-  const email = document.getElementById("email").value.trim();
-  const password = document.getElementById("password").value.trim();
-  const confirmPassword = document.getElementById("confirmPassword").value.trim();
-  const firstName = document.getElementById("firstName").value.trim();
-  const lastName = document.getElementById("lastName").value.trim();
-
-  if (password !== confirmPassword) {
-    alert("Passwords do not match");
+  // 🔒 STOP if this page is not signup.html
+  if (!signupForm) {
+    console.log("signupForm not found — skipping signup logic");
     return;
   }
 
-  try {
-    // 🔹 Create Auth account
-    const userCredential = await auth.createUserWithEmailAndPassword(email, password);
-    const user = userCredential.user;
+  signupForm.addEventListener("submit", async (e) => {
+    e.preventDefault(); // 🔥 prevents page reload
 
-    console.log("User created:", user.uid);
+    console.log("Signup form submitted");
 
-    // 🔹 Save user profile to Firestore
-    await db.collection("users").doc(user.uid).set({
-      firstName,
-      lastName,
-      email,
-      role: window.selectedRole || "client",
-      createdAt: firebase.firestore.FieldValue.serverTimestamp()
-    });
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value.trim();
+    const confirmPassword = document.getElementById("confirmPassword").value.trim();
+    const firstName = document.getElementById("firstName").value.trim();
+    const lastName = document.getElementById("lastName").value.trim();
 
-    console.log("User profile saved");
+    if (password !== confirmPassword) {
+      alert("Passwords do not match");
+      return;
+    }
 
-    // 🔹 Redirect AFTER success
-    window.location.href = "/index.html";
+    try {
+      const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+      const user = userCredential.user;
 
-  } catch (error) {
-    console.error(error);
+      console.log("User created:", user.uid);
+
+      await db.collection("users").doc(user.uid).set({
+        firstName,
+        lastName,
+        email,
+        role: window.selectedRole || "client",
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      });
+
+      console.log("User profile saved");
+
+      window.location.href = "/index.html";
+
+    } catch (error) {
+      console.error(error);
+      alert(error.message);
+    }
+  });
+});
     alert(error.message);
   }
 });
+
