@@ -354,6 +354,28 @@
 
 <script src="../js/firebase.js"></script>
 <script src="../js/auth.js"></script>
+<script>
+  // Account type selection
+  let selectedRole = "";
+
+  document.addEventListener("DOMContentLoaded", () => {
+    document.querySelectorAll("[data-type], [data-role]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        // remove active from all
+        document.querySelectorAll("[data-type], [data-role]").forEach(b => {
+          b.classList.remove("selected");
+        });
+
+        // add active to clicked
+        btn.classList.add("selected");
+
+        // store role
+        selectedRole = btn.dataset.type || btn.dataset.role;
+        console.log("Selected role:", selectedRole);
+      });
+    });
+  });
+</script>
 
 
   
@@ -361,4 +383,5 @@
 </body>
 
 </html>
+
 
