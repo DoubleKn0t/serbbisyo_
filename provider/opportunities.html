@@ -306,27 +306,27 @@
 
         <button class="filter-btn active" data-category="all">
           <span>All Opportunities</span>
-          <span class="small-muted">847</span>
+          
         </button>
 
         <button class="filter-btn" data-category="full-time">
           <span>Full-Time</span>
-          <span class="small-muted">342</span>
+          
         </button>
 
         <button class="filter-btn" data-category="part-time">
           <span>Part-Time</span>
-          <span class="small-muted">189</span>
+          
         </button>
 
         <button class="filter-btn" data-category="gig">
           <span>Gigs & Freelance</span>
-          <span class="small-muted">256</span>
+          
         </button>
 
         <button class="filter-btn" data-category="startup">
           <span>Startups</span>
-          <span class="small-muted">60</span>
+            
         </button>
 
         <div class="section-title">Distance</div>
@@ -359,7 +359,8 @@
       </div>
 
       <!-- MAIN -->
-      <div style="display:flex; flex-direction:column; gap:18px;">
+      <div style="display:flex; flex-direction:column; gap:18px;" id="opportunitiesContainer">
+
 
         <!-- SEARCH -->
         <div class="card card-pad">
@@ -369,367 +370,13 @@
           </div>
         </div>
 
-        <!-- LISTINGS -->
-        <div class="card listing" data-category="full-time" data-verified="true" data-urgent="false">
-          <div class="listing-top">
-            <div style="flex:1;">
-              <h3 class="job-title">[Employment] Sales Representative</h3>
-
-              <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:8px;">
-                <span class="verified">✓ Verified</span>
-              </div>
-
-              <div class="meta">
-                <span><b>Company:</b> ABC Corporation</span>
-                <span><b>Location:</b> Manila, Metro Manila</span>
-                <span><b>Posted:</b> 5 days ago</span>
-                <span><b>Type:</b> Full-Time</span>
-                <span class="salary"><b>Rate:</b> PHP 25,000 - 35,000 / month</span>
-                <span><b>Applicants:</b> 15</span>
-              </div>
-
-              <p class="desc">
-                Join our sales team and help businesses grow. Experience in B2B sales preferred.
-              </p>
-
-              <div class="skills">
-                <span class="small-muted">Required:</span>
-                <span class="skill-pill">Sales</span>
-                <span class="skill-pill">Communication</span>
-                <span class="skill-pill">Customer Service</span>
-              </div>
-            </div>
-
-            <div style="text-align:center;">
-              <div class="match-circle">75%</div>
-              <div class="small-muted" style="margin-top:6px;">Match</div>
-            </div>
-          </div>
-
-          <div class="actions">
-            <button class="btn-primary">Apply Now</button>
-            <button class="btn-secondary">View Details</button>
-            <button class="btn-secondary">Save</button>
-          </div>
-        </div>
-
-        <!-- PLACEHOLDER - Gigs & Freelance Category -->
-        <div class="card listing" data-category="part-time" data-verified="false" data-urgent="false">
-          <div class="listing-top">
-            <div style="flex:1;">
-              <h3 class="job-title">[Gig] Freelance Content Writer</h3>
-
-              <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:8px;">
-              </div>
-
-              <div class="meta">
-                <span><b>Company:</b> Content Agency</span>
-                <span><b>Location:</b> Remote Work</span>
-                <span><b>Posted:</b> 1 day ago</span>
-                <span><b>Type:</b> Part-Time</span>
-                <span class="salary"><b>Rate:</b> PHP 500 - 1,000 / article</span>
-                <span><b>Applicants:</b> 8</span>
-              </div>
-
-              <p class="desc">
-                Looking for talented writers to create blog posts and articles on various topics.
-              </p>
-
-              <div class="skills">
-                <span class="small-muted">Required:</span>
-                <span class="skill-pill">Writing</span>
-                <span class="skill-pill">Research</span>
-                <span class="skill-pill">SEO</span>
-              </div>
-            </div>
-
-            <div style="text-align:center;">
-              <div class="match-circle">70%</div>
-              <div class="small-muted" style="margin-top:6px;">Match</div>
-            </div>
-          </div>
-
-          <div class="actions">
-            <button class="btn-primary">Apply Now</button>
-            <button class="btn-secondary">View Details</button>
-            <button class="btn-secondary">Save</button>
-          </div>
-        </div>
-
-        <!-- PLACEHOLDER - Service Requests Category -->
-        <div class="card listing" data-category="gig" data-verified="true" data-urgent="true">
-          <div class="listing-top">
-            <div style="flex:1;">
-              <h3 class="job-title">[Service] Home Cleaning Service Needed</h3>
-
-              <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:8px;">
-                <span class="verified">✓ Verified</span>
-                <span class="urgent">⚡ Urgent</span>
-              </div>
-
-              <div class="meta">
-                <span><b>Client:</b> Private Homeowner</span>
-                <span><b>Location:</b> Pasig City</span>
-                <span><b>Posted:</b> Today</span>
-                <span><b>Type:</b> Service Request</span>
-                <span class="salary"><b>Rate:</b> PHP 1,500 - 2,500 / day</span>
-                <span><b>Applicants:</b> 3</span>
-              </div>
-
-              <p class="desc">
-                Need deep cleaning service for a 3-bedroom house. Must be available this weekend.
-              </p>
-
-              <div class="skills">
-                <span class="small-muted">Required:</span>
-                <span class="skill-pill">Cleaning</span>
-                <span class="skill-pill">Reliability</span>
-                <span class="skill-pill">Attention to Detail</span>
-              </div>
-            </div>
-
-            <div style="text-align:center;">
-              <div class="match-circle">65%</div>
-              <div class="small-muted" style="margin-top:6px;">Match</div>
-            </div>
-          </div>
-
-          <div class="actions">
-            <button class="btn-primary">Apply Now</button>
-            <button class="btn-secondary">View Details</button>
-            <button class="btn-secondary">Save</button>
-          </div>
-        </div>
-
-        <!-- PLACEHOLDER - Projects Category -->
-        <div class="card listing" data-category="startup" data-verified="false" data-urgent="false">
-          <div class="listing-top">
-            <div style="flex:1;">
-              <h3 class="job-title">[Project] Mobile App Development</h3>
-
-              <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:8px;">
-              </div>
-
-              <div class="meta">
-                <span><b>Company:</b> Startup Inc</span>
-                <span><b>Location:</b> Remote</span>
-                <span><b>Posted:</b> 3 days ago</span>
-                <span><b>Type:</b> Project-Based</span>
-                <span class="salary"><b>Rate:</b> PHP 80,000 - 150,000 / project</span>
-                <span><b>Applicants:</b> 12</span>
-              </div>
-
-              <p class="desc">
-                Seeking developers to build a mobile app for food delivery. 3-month timeline expected.
-              </p>
-
-              <div class="skills">
-                <span class="small-muted">Required:</span>
-                <span class="skill-pill">React Native</span>
-                <span class="skill-pill">Mobile Development</span>
-                <span class="skill-pill">API Integration</span>
-              </div>
-            </div>
-
-            <div style="text-align:center;">
-              <div class="match-circle">92%</div>
-              <div class="small-muted" style="margin-top:6px;">Match</div>
-            </div>
-          </div>
-
-          <div class="actions">
-            <button class="btn-primary">Apply Now</button>
-            <button class="btn-secondary">View Details</button>
-            <button class="btn-secondary">Save</button>
-          </div>
-        </div>
-
-        <!-- MORE PLACEHOLDERS - Additional Employment -->
-        <div class="card listing" data-category="full-time" data-verified="true" data-urgent="true">
-          <div class="listing-top">
-            <div style="flex:1;">
-              <h3 class="job-title">[Employment] Customer Service Representative</h3>
-
-              <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:8px;">
-                <span class="verified">✓ Verified</span>
-                <span class="urgent">⚡ Urgent</span>
-              </div>
-
-              <div class="meta">
-                <span><b>Company:</b> Call Center Solutions</span>
-                <span><b>Location:</b> Ortigas, Pasig</span>
-                <span><b>Posted:</b> 1 day ago</span>
-                <span><b>Type:</b> Full-Time</span>
-                <span class="salary"><b>Rate:</b> PHP 20,000 - 28,000 / month</span>
-                <span><b>Applicants:</b> 45</span>
-              </div>
-
-              <p class="desc">
-                Handle customer inquiries and provide excellent service. Night shift available with premium pay.
-              </p>
-
-              <div class="skills">
-                <span class="small-muted">Required:</span>
-                <span class="skill-pill">English Proficiency</span>
-                <span class="skill-pill">Communication</span>
-                <span class="skill-pill">Problem Solving</span>
-              </div>
-            </div>
-
-            <div style="text-align:center;">
-              <div class="match-circle">80%</div>
-              <div class="small-muted" style="margin-top:6px;">Match</div>
-            </div>
-          </div>
-
-          <div class="actions">
-            <button class="btn-primary">Apply Now</button>
-            <button class="btn-secondary">View Details</button>
-            <button class="btn-secondary">Save</button>
-          </div>
-        </div>
-
-        <!-- MORE PLACEHOLDERS - Additional Gig -->
-        <div class="card listing" data-category="part-time" data-verified="true" data-urgent="false">
-          <div class="listing-top">
-            <div style="flex:1;">
-              <h3 class="job-title">[Gig] Social Media Manager</h3>
-
-              <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:8px;">
-                <span class="verified">✓ Verified</span>
-              </div>
-
-              <div class="meta">
-                <span><b>Company:</b> Small Business Owner</span>
-                <span><b>Location:</b> Remote</span>
-                <span><b>Posted:</b> 2 days ago</span>
-                <span><b>Type:</b> Part-Time</span>
-                <span class="salary"><b>Rate:</b> PHP 15,000 - 25,000 / month</span>
-                <span><b>Applicants:</b> 18</span>
-              </div>
-
-              <p class="desc">
-                Manage social media accounts for a local restaurant. 10-15 hours per week.
-              </p>
-
-              <div class="skills">
-                <span class="small-muted">Required:</span>
-                <span class="skill-pill">Social Media</span>
-                <span class="skill-pill">Content Creation</span>
-                <span class="skill-pill">Canva</span>
-              </div>
-            </div>
-
-            <div style="text-align:center;">
-              <div class="match-circle">78%</div>
-              <div class="small-muted" style="margin-top:6px;">Match</div>
-            </div>
-          </div>
-
-          <div class="actions">
-            <button class="btn-primary">Apply Now</button>
-            <button class="btn-secondary">View Details</button>
-            <button class="btn-secondary">Save</button>
-          </div>
-        </div>
-
-        <!-- MORE PLACEHOLDERS - Additional Service Request -->
-        <div class="card listing" data-category="gig" data-verified="false" data-urgent="false">
-          <div class="listing-top">
-            <div style="flex:1;">
-              <h3 class="job-title">[Service] Plumbing Repair Needed</h3>
-
-              <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:8px;">
-              </div>
-
-              <div class="meta">
-                <span><b>Client:</b> Residential Property</span>
-                <span><b>Location:</b> Quezon City</span>
-                <span><b>Posted:</b> 4 hours ago</span>
-                <span><b>Type:</b> Service Request</span>
-                <span class="salary"><b>Rate:</b> PHP 800 - 1,500 / visit</span>
-                <span><b>Applicants:</b> 5</span>
-              </div>
-
-              <p class="desc">
-                Kitchen sink is leaking. Need a reliable plumber for quick repair.
-              </p>
-
-              <div class="skills">
-                <span class="small-muted">Required:</span>
-                <span class="skill-pill">Plumbing</span>
-                <span class="skill-pill">Problem Solving</span>
-                <span class="skill-pill">Tools</span>
-              </div>
-            </div>
-
-            <div style="text-align:center;">
-              <div class="match-circle">60%</div>
-              <div class="small-muted" style="margin-top:6px;">Match</div>
-            </div>
-          </div>
-
-          <div class="actions">
-            <button class="btn-primary">Apply Now</button>
-            <button class="btn-secondary">View Details</button>
-            <button class="btn-secondary">Save</button>
-          </div>
-        </div>
-
-        <!-- MORE PLACEHOLDERS - Additional Project -->
-        <div class="card listing" data-category="startup" data-verified="true" data-urgent="true">
-          <div class="listing-top">
-            <div style="flex:1;">
-              <h3 class="job-title">[Project] Website Redesign</h3>
-
-              <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:8px;">
-                <span class="verified">✓ Verified</span>
-                <span class="urgent">⚡ Urgent</span>
-              </div>
-
-              <div class="meta">
-                <span><b>Company:</b> E-commerce Business</span>
-                <span><b>Location:</b> Hybrid - Makati</span>
-                <span><b>Posted:</b> 2 days ago</span>
-                <span><b>Type:</b> Project-Based</span>
-                <span class="salary"><b>Rate:</b> PHP 50,000 - 80,000 / project</span>
-                <span><b>Applicants:</b> 9</span>
-              </div>
-
-              <p class="desc">
-                Redesign our e-commerce website to improve user experience and conversion rates. 6-week deadline.
-              </p>
-
-              <div class="skills">
-                <span class="small-muted">Required:</span>
-                <span class="skill-pill">Web Design</span>
-                <span class="skill-pill">UX/UI</span>
-                <span class="skill-pill">WordPress</span>
-                <span class="skill-pill">E-commerce</span>
-              </div>
-            </div>
-
-            <div style="text-align:center;">
-              <div class="match-circle">85%</div>
-              <div class="small-muted" style="margin-top:6px;">Match</div>
-            </div>
-          </div>
-
-          <div class="actions">
-            <button class="btn-primary">Apply Now</button>
-            <button class="btn-secondary">View Details</button>
-            <button class="btn-secondary">Save</button>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </div>
+        <!-- LISTINGS (DYNAMIC) -->
+        <div id="opportunitiesList" style="display:flex; flex-direction:column; gap:18px;"></div>
 
   <script>
     // Filter button interactions
     const filterButtons = document.querySelectorAll('.filter-btn');
-    const listings = document.querySelectorAll('.listing');
+    function getListings() {return document.querySelectorAll('.listing');}
     const searchInput = document.querySelector('.search-bar .input');
     const searchBtn = document.querySelector('.search-btn');
     const distanceSelect = document.querySelector('.select');
@@ -775,7 +422,7 @@
       const urgentOnly = urgentCheckbox.checked;
       const remoteOnly = remoteCheckbox.checked;
 
-      listings.forEach(listing => {
+      getlistings().forEach(listing => {
         let show = true;
 
         // Get listing data
@@ -827,6 +474,142 @@
       });
     }
     </script>
+   <script>
+  // Demo provider identity (safe for now)
+  const providerId =
+    JSON.parse(localStorage.getItem("currentUser"))?.uid
+    || "demo-provider-001";
+
+  function getApplications() {
+    return JSON.parse(localStorage.getItem("applications")) || {};
+  }
+
+  function saveApplications(apps) {
+    localStorage.setItem("applications", JSON.stringify(apps));
+  }
+
+  function applyToBooking(bookingId, btn) {
+    const applications = getApplications();
+
+    if (!applications[bookingId]) {
+      applications[bookingId] = [];
+    }
+
+    if (applications[bookingId].includes(providerId)) {
+      alert("You already applied to this booking.");
+      return;
+    }
+
+    applications[bookingId].push(providerId);
+    saveApplications(applications);
+
+    // 🔒 LOCK BUTTON UI
+    btn.textContent = "Applied";
+    btn.disabled = true;
+    btn.style.background = "#9ca3af";
+    btn.style.cursor = "not-allowed";
+
+    alert("Application submitted!");
+  }
+
+  // 🔁 INITIALIZE BUTTON STATES ON PAGE LOAD
+  document.addEventListener("DOMContentLoaded", () => {
+    const applications = getApplications();
+
+    document.querySelectorAll(".listing").forEach(listing => {
+      const bookingId = listing.dataset.bookingId;
+      if (!bookingId) return;
+
+      const applyBtn = listing.querySelector(".btn-primary");
+      if (!applyBtn) return;
+
+      const alreadyApplied =
+        applications[bookingId]?.includes(providerId);
+
+      if (alreadyApplied) {
+        applyBtn.textContent = "Applied";
+        applyBtn.disabled = true;
+        applyBtn.style.background = "#9ca3af";
+        applyBtn.style.cursor = "not-allowed";
+      } else {
+        applyBtn.onclick = () =>
+          applyToBooking(bookingId, applyBtn);
+      }
+    });
+  });
+</script>
+<script>
+  const listContainer = document.getElementById("opportunitiesList");
+
+  const bookings = JSON.parse(localStorage.getItem("bookings")) || [];
+  const applications = JSON.parse(localStorage.getItem("applications")) || {};
+
+  if (bookings.length === 0) {
+    listContainer.innerHTML = `
+      <div class="card card-pad">
+        <p style="text-align:center; color:#6b7280;">
+          No available jobs yet.
+        </p>
+      </div>
+    `;
+  } else {
+    bookings
+      .filter(b => b.status === "open")
+      .forEach(b => {
+        const alreadyApplied = applications[b.id]?.includes("provider-demo");
+
+        const card = document.createElement("div");
+        card.className = "card listing";
+
+        card.innerHTML = `
+          <div class="listing-top">
+            <div style="flex:1;">
+              <h3 class="job-title">${b.title}</h3>
+
+              <div class="meta">
+                <span><b>Category:</b> ${b.category || "General"}</span>
+                <span><b>Location:</b> ${b.location}</span>
+                <span><b>Posted:</b> ${new Date(b.createdAt).toLocaleDateString()}</span>
+                <span class="salary"><b>Budget:</b> ${b.budget}</span>
+              </div>
+
+              <p class="desc">${b.description}</p>
+            </div>
+
+            <div style="text-align:center;">
+              <div class="match-circle">80%</div>
+              <div class="small-muted" style="margin-top:6px;">Match</div>
+            </div>
+          </div>
+
+          <div class="actions">
+            <button class="btn-primary" ${alreadyApplied ? "disabled" : ""}>
+              ${alreadyApplied ? "Applied" : "Apply Now"}
+            </button>
+            <button class="btn-secondary">View Details</button>
+          </div>
+        `;
+
+        const applyBtn = card.querySelector(".btn-primary");
+
+        applyBtn.addEventListener("click", () => {
+          if (!applications[b.id]) {
+            applications[b.id] = [];
+          }
+
+          applications[b.id].push("provider-demo");
+          localStorage.setItem("applications", JSON.stringify(applications));
+
+          alert("Application submitted!");
+          applyBtn.textContent = "Applied";
+          applyBtn.disabled = true;
+        });
+
+        listContainer.appendChild(card);
+      });
+  }
+</script>
+
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
@@ -834,9 +617,7 @@
     <script src="/js/firebase.js"></script>
     <script src="/js/auth.js"></script>
     <script src="/js/auth-check.js"></script>
-
-
-
+    
 
 </body>
 </html>
