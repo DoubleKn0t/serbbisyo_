@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SerbBisyo | Profile</title>
+  <link rel="stylesheet" href="../css/navbar.css">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
+    body { background: #f9fafb; }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 24px 16px;
+    }
+
+    .profile-grid {
+      display: grid;
+      grid-template-columns: 1fr 420px;
+      gap: 24px;
+    }
+
+    .card {
+      background: white;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      padding: 24px;
+    }
+
+    /* PROFILE HEADER */
+    .profile-header {
+      background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+      height: 180px;
+      border-radius: 12px 12px 0 0;
+      position: relative;
+    }
+
+    .profile-main {
+      padding: 0 24px 24px;
+      position: relative;
+    }
+
+    .profile-avatar {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      background: #d1d5db;
+      border: 6px solid white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 48px;
+      font-weight: 700;
+      color: #6b7280;
+      position: absolute;
+      bottom: 20px;
+      left: 24px;
+    }
+
+    .profile-info {
+      margin-top: 24px;
+      margin-bottom: 20px;
+    }
+
+    .profile-name {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .profile-name h1 {
+      font-size: 28px;
+      font-weight: 700;
+      color: #111827;
+    }
+
+    .verified-icon {
+      width: 28px;
+      height: 28px;
+      background: #2563eb;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 16px;
+    }
+
+    .profile-title {
+      font-size: 16px;
+      color: #4b5563;
+      margin-bottom: 12px;
+    }
+
+    .profile-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      font-size: 14px;
+      color: #6b7280;
+      margin-bottom: 16px;
+    }
+
+    .profile-meta-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .badge.verified {
+      background: #dbeafe;
+      color: #1e40af;
+    }
+
+    .badge.active-client {
+      background: #d1fae5;
+      color: #065f46;
+    }
+
+    .edit-profile-btn {
+      padding: 10px 20px;
+      background: white;
+      border: 1px solid #d1d5db;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 600;
+      color: #374151;
+      font-size: 14px;
+      transition: all 0.2s;
+      position: absolute;
+      top: 24px;
+      right: 24px;
+    }
+
+    .edit-profile-btn:hover {
+      background: #f9fafb;
+      border-color: #9ca3af;
+    }
+
+    /* ABOUT */
+    .section {
+      margin-bottom: 32px;
+    }
+
+    .section:last-child {
+      margin-bottom: 0;
+    }
+
+    .section-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: #111827;
+      margin-bottom: 16px;
+    }
+
+    .about-text {
+      font-size: 15px;
+      color: #4b5563;
+      line-height: 1.7;
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 14px;
+      color: #4b5563;
+    }
+
+    .contact-icon {
+      width: 20px;
+      text-align: center;
+    }
+
+    .contact-link {
+      color: #2563eb;
+      text-decoration: none;
+    }
+
+    .contact-link:hover {
+      text-decoration: underline;
+    }
+
+    /* SIDEBAR */
+    .sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .stat-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+
+    .stat-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .stat-item:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .stat-label {
+      font-size: 14px;
+      color: #6b7280;
+    }
+
+    .stat-value {
+      font-size: 18px;
+      font-weight: 700;
+      color: #111827;
+    }
+
+    .verification-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .verification-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 14px;
+      color: #111827;
+    }
+
+    .check-icon {
+      width: 20px;
+      height: 20px;
+      background: #10b981;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 12px;
+      flex-shrink: 0;
+    }
+
+    /* Favorite Providers */
+    .provider-item {
+      display: flex;
+      gap: 12px;
+      padding: 12px;
+      border-radius: 10px;
+      transition: background 0.2s;
+      cursor: pointer;
+      border: 1px solid #e5e7eb;
+      margin-bottom: 12px;
+    }
+
+    .provider-item:hover {
+      background: #f9fafb;
+    }
+
+    .provider-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 700;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+
+    .provider-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .provider-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: #111827;
+      margin-bottom: 2px;
+    }
+
+    .provider-skill {
+      font-size: 12px;
+      color: #6b7280;
+      margin-bottom: 4px;
+    }
+
+    .provider-rating {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: #4b5563;
+    }
+
+    .star {
+      color: #fbbf24;
+    }
+
+    /* Recent Activity */
+    .activity-item {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      margin-bottom: 16px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .activity-item:last-child {
+      margin-bottom: 0;
+      padding-bottom: 0;
+      border-bottom: none;
+    }
+
+    .activity-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 10px;
+      background: #f3f4f6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+
+    .activity-content p {
+      font-size: 14px;
+      color: #111827;
+      margin-bottom: 3px;
+    }
+
+    .activity-content small {
+      font-size: 12px;
+      color: #6b7280;
+    }
+
+    @media (max-width: 1024px) {
+      .profile-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .contact-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .profile-avatar {
+        width: 100px;
+        height: 100px;
+        font-size: 36px;
+        bottom: 15px;
+      }
+      
+      .profile-info {
+        margin-top: 16px;
+      }
+      
+      .profile-name h1 {
+        font-size: 22px;
+      }
+      
+      .edit-profile-btn {
+        position: static;
+        width: 100%;
+        margin-top: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="nav-inner">
+      <div class="nav-left">
+        <a href="index.html" class="logo-box">
+          <span class="logo-text">S</span>
+        </a>
+        <div class="nav-title">
+          <div class="nav-sub">SerbBisyo</div>
+        </div>
+      </div>
+
+      <div class="nav-links">
+        <a class="nav-link" href="../client/c_dashboard.html">Home</a>
+        <a class="nav-link" href="../client/browse.html">Browse Services</a>
+        <a class="nav-link" href="../client/bookings.html">My Bookings</a>
+        <a class="nav-link" href="../client/favorites.html">Favorites</a>
+        <a class="nav-link" href="../client/c_messages.html">Messages</a>
+        <a class="nav-link active" href="../client/c_profile.html">Profile</a>
+        <a class="nav-link" href="../client/c_settings.html">Settings</a>
+        <button onclick="logout()" class="nav-link" style="border:none; background:transparent; cursor:pointer;">
+          Logout
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="profile-grid">
+      
+      <!-- MAIN PROFILE -->
+      <div>
+        <div class="card" style="padding: 0; overflow: hidden;">
+          <div class="profile-header">
+            <div class="profile-avatar">MG</div>
+          </div>
+          
+          <div class="profile-main">
+            <button class="edit-profile-btn">Edit Profile</button>
+            
+            <div class="profile-info">
+              <div class="profile-name">
+                <h1>Maria Garcia</h1>
+                <div class="verified-icon">✓</div>
+              </div>
+              
+              <div class="profile-title">Active SerbBisyo Client</div>
+              
+              <div class="profile-meta">
+                <div class="profile-meta-item">
+                  📍 Quezon City, Metro Manila
+                </div>
+                <div class="profile-meta-item">
+                  📅 Member since January 2024
+                </div>
+              </div>
+              
+              <div class="badges">
+                <div class="badge verified">
+                  ✓ Verified Member
+                </div>
+                <div class="badge active-client">
+                  ⭐ Active Client
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ABOUT -->
+        <div class="card" style="margin-top: 24px;">
+          <div class="section">
+            <h2 class="section-title">About</h2>
+            <p class="about-text">
+              I'm a busy professional who values quality service and reliability. I appreciate service providers who are punctual, communicative, and take pride in their work. Looking forward to connecting with skilled professionals who can help make my life easier!
+            </p>
+          </div>
+
+          <div class="section">
+            <div class="contact-grid">
+              <div class="contact-item">
+                <span class="contact-icon">✉️</span>
+                <a href="mailto:maria.garcia@email.com" class="contact-link">maria.garcia@email.com</a>
+              </div>
+              <div class="contact-item">
+                <span class="contact-icon">📱</span>
+                <span>0917-123-4567</span>
+              </div>
+              <div class="contact-item">
+                <span class="contact-icon">🏠</span>
+                <span>Quezon City</span>
+              </div>
+              <div class="contact-item">
+                <span class="contact-icon">📅</span>
+                <span>Member since January 2024</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- PREFERENCES -->
+        <div class="card" style="margin-top: 24px;">
+          <h2 class="section-title">Service Preferences</h2>
+          <div style="display: flex; flex-direction: column; gap: 16px;">
+            <div style="padding: 12px; background: #f9fafb; border-radius: 8px; border: 1px solid #e5e7eb;">
+              <div style="font-weight: 600; color: #111827; margin-bottom: 4px;">Preferred Service Times</div>
+              <div style="font-size: 13px; color: #6b7280;">Weekday afternoons, Weekend mornings</div>
+            </div>
+            <div style="padding: 12px; background: #f9fafb; border-radius: 8px; border: 1px solid #e5e7eb;">
+              <div style="font-weight: 600; color: #111827; margin-bottom: 4px;">Communication Style</div>
+              <div style="font-size: 13px; color: #6b7280;">Text messages preferred, Regular updates appreciated</div>
+            </div>
+            <div style="padding: 12px; background: #f9fafb; border-radius: 8px; border: 1px solid #e5e7eb;">
+              <div style="font-weight: 600; color: #111827; margin-bottom: 4px;">Service Areas of Interest</div>
+              <div style="font-size: 13px; color: #6b7280;">Home Repair, Cleaning, Education, Digital Services</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SIDEBAR -->
+      <div class="sidebar">
+        
+        <!-- ACTIVITY STATS -->
+        <div class="card">
+          <h2 class="section-title">Your Activity</h2>
+          
+          <div class="stat-grid">
+            <div class="stat-item">
+              <span class="stat-label">Total Bookings</span>
+              <span class="stat-value">12</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">Completed Services</span>
+              <span class="stat-value">9</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">Active Bookings</span>
+              <span class="stat-value">3</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">Favorite Providers</span>
+              <span class="stat-value">8</span>
+            </div>
+          </div>
+
+          <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #e5e7eb;">
+            <div class="verification-list">
+              <div class="verification-item">
+                <div class="check-icon">✓</div>
+                <span>Email Verified</span>
+              </div>
+              <div class="verification-item">
+                <div class="check-icon">✓</div>
+                <span>Phone Verified</span>
+              </div>
+              <div class="verification-item">
+                <div class="check-icon">✓</div>
+                <span>Payment Method Added</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- FAVORITE PROVIDERS -->
+        <div class="card">
+          <h2 class="section-title">Favorite Providers</h2>
+          
+          <div class="provider-item">
+            <div class="provider-avatar">JD</div>
+            <div class="provider-info">
+              <div class="provider-name">Juan dela Cruz</div>
+              <div class="provider-skill">Plumbing & Electrical</div>
+              <div class="provider-rating">
+                <span class="star">⭐</span>
+                <span>4.9 (127 reviews)</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="provider-item">
+            <div class="provider-avatar" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">SR</div>
+            <div class="provider-info">
+              <div class="provider-name">Sarah Reyes</div>
+              <div class="provider-skill">Graphic Design</div>
+              <div class="provider-rating">
+                <span class="star">⭐</span>
+                <span>5.0 (84 reviews)</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="provider-item">
+            <div class="provider-avatar" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">MS</div>
+            <div class="provider-info">
+              <div class="provider-name">Mark Santos</div>
+              <div class="provider-skill">Math Tutor</div>
+              <div class="provider-rating">
+                <span class="star">⭐</span>
+                <span>4.8 (93 reviews)</span>
+              </div>
+            </div>
+          </div>
+
+          <button style="width: 100%; padding: 10px; background: white; border: 1px solid #d1d5db; border-radius: 8px; cursor: pointer; font-weight: 600; color: #374151; font-size: 14px; margin-top: 8px;">
+            View All Favorites
+          </button>
+        </div>
+
+        <!-- RECENT ACTIVITY -->
+        <div class="card">
+          <h2 class="section-title">Recent Activity</h2>
+
+          <div>
+            <div class="activity-item">
+              <div class="activity-icon">✅</div>
+              <div class="activity-content">
+                <p>Completed booking with Juan dela Cruz</p>
+                <small>3 hours ago</small>
+              </div>
+            </div>
+
+            <div class="activity-item">
+              <div class="activity-icon">⭐</div>
+              <div class="activity-content">
+                <p>Rated Sarah Reyes 5 stars</p>
+                <small>1 day ago</small>
+              </div>
+            </div>
+
+            <div class="activity-item">
+              <div class="activity-icon">📅</div>
+              <div class="activity-content">
+                <p>Scheduled new booking for Math Tutoring</p>
+                <small>2 days ago</small>
+              </div>
+            </div>
+
+            <div class="activity-item">
+              <div class="activity-icon">❤️</div>
+              <div class="activity-content">
+                <p>Added 2 providers to favorites</p>
+                <small>3 days ago</small>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+  <script src="/js/firebase.js"></script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/auth-check.js"></script>
+</body>
+</html>

@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SerbBisyo | Messages</title>
+  <link rel="stylesheet" href="../css/navbar.css">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
+    body { background: #f9fafb; }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 24px 16px;
+    }
+
+    .messages-grid {
+      display: grid;
+      grid-template-columns: 380px 1fr;
+      gap: 0;
+      background: white;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      overflow: hidden;
+      height: calc(100vh - 120px);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+
+    /* LEFT SIDEBAR - CONVERSATIONS */
+    .conversations-panel {
+      border-right: 1px solid #e5e7eb;
+      display: flex;
+      flex-direction: column;
+      background: #fafafa;
+    }
+
+    .search-box {
+      padding: 16px;
+      border-bottom: 1px solid #e5e7eb;
+      background: white;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 10px 12px 10px 36px;
+      border: 1px solid #d1d5db;
+      border-radius: 10px;
+      font-size: 14px;
+      outline: none;
+      background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="%236b7280" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>') no-repeat 10px center;
+    }
+
+    .conversations-list {
+      overflow-y: auto;
+      flex: 1;
+    }
+
+    .conversation-item {
+      display: flex;
+      gap: 12px;
+      padding: 14px 16px;
+      cursor: pointer;
+      border-bottom: 1px solid #e5e7eb;
+      background: white;
+      transition: background 0.2s;
+      position: relative;
+    }
+
+    .conversation-item:hover {
+      background: #f9fafb;
+    }
+
+    .conversation-item.active {
+      background: #eff6ff;
+      border-left: 3px solid #2563eb;
+    }
+
+    .avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      color: white;
+      font-size: 16px;
+      flex-shrink: 0;
+      position: relative;
+    }
+
+    .avatar.online::after {
+      content: '';
+      position: absolute;
+      bottom: 2px;
+      right: 2px;
+      width: 12px;
+      height: 12px;
+      background: #10b981;
+      border: 2px solid white;
+      border-radius: 50%;
+    }
+
+    .conversation-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .conversation-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 4px;
+    }
+
+    .conversation-name {
+      font-weight: 600;
+      color: #111827;
+      font-size: 14px;
+    }
+
+    .conversation-time {
+      font-size: 12px;
+      color: #6b7280;
+      white-space: nowrap;
+    }
+
+    .conversation-role {
+      font-size: 12px;
+      color: #6b7280;
+      margin-bottom: 4px;
+    }
+
+    .conversation-preview {
+      font-size: 13px;
+      color: #4b5563;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .unread-badge {
+      position: absolute;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: #2563eb;
+      color: white;
+      border-radius: 50%;
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    /* RIGHT PANEL - CHAT */
+    .chat-panel {
+      display: flex;
+      flex-direction: column;
+      background: white;
+    }
+
+    .chat-header {
+      padding: 16px 24px;
+      border-bottom: 1px solid #e5e7eb;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: white;
+    }
+
+    .chat-header-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .chat-title {
+      font-weight: 600;
+      color: #111827;
+      font-size: 16px;
+      margin-bottom: 2px;
+    }
+
+    .chat-status {
+      font-size: 13px;
+      color: #10b981;
+    }
+
+    .chat-actions {
+      display: flex;
+      gap: 12px;
+    }
+
+    .icon-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      border: 1px solid #e5e7eb;
+      background: white;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #4b5563;
+      transition: all 0.2s;
+    }
+
+    .icon-btn:hover {
+      background: #f9fafb;
+      border-color: #d1d5db;
+    }
+
+    .chat-messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      background: #fafafa;
+    }
+
+    .message {
+      display: flex;
+      gap: 12px;
+      max-width: 70%;
+    }
+
+    .message.sent {
+      align-self: flex-end;
+      flex-direction: row-reverse;
+    }
+
+    .message-bubble {
+      background: #e5e7eb;
+      padding: 12px 16px;
+      border-radius: 16px;
+      color: #111827;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .message.sent .message-bubble {
+      background: #2563eb;
+      color: white;
+    }
+
+    .message-time {
+      font-size: 11px;
+      color: #6b7280;
+      margin-top: 4px;
+      display: block;
+    }
+
+    .chat-input-area {
+      padding: 16px 24px;
+      border-top: 1px solid #e5e7eb;
+      background: white;
+    }
+
+    .chat-input-wrapper {
+      display: flex;
+      gap: 12px;
+      align-items: flex-end;
+    }
+
+    .chat-input {
+      flex: 1;
+      padding: 12px 16px;
+      border: 1px solid #d1d5db;
+      border-radius: 12px;
+      font-size: 14px;
+      outline: none;
+      resize: none;
+      font-family: Arial, sans-serif;
+      min-height: 44px;
+      max-height: 120px;
+    }
+
+    .chat-input:focus {
+      border-color: #2563eb;
+    }
+
+    .send-btn {
+      padding: 12px 24px;
+      background: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 14px;
+      transition: background 0.2s;
+    }
+
+    .send-btn:hover {
+      background: #1d4ed8;
+    }
+
+    .empty-state {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      color: #6b7280;
+      text-align: center;
+      padding: 40px;
+    }
+
+    .empty-state h3 {
+      color: #111827;
+      margin-bottom: 8px;
+    }
+
+    @media (max-width: 900px) {
+      .messages-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .conversations-panel {
+        border-right: none;
+      }
+      
+      .chat-panel {
+        display: none;
+      }
+      
+      .chat-panel.active {
+        display: flex;
+      }
+      
+      .conversations-panel.hidden {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="nav-inner">
+      <div class="nav-left">
+        <a href="index.html" class="logo-box">
+          <span class="logo-text">S</span>
+        </a>
+        <div class="nav-title">
+          <div class="nav-sub">SerbBisyo</div>
+        </div>
+      </div>
+
+      <div class="nav-links">
+        <a class="nav-link" href="../client/c_dashboard.html">Home</a>
+        <a class="nav-link" href="../client/browse.html">Browse Services</a>
+        <a class="nav-link" href="../client/bookings.html">My Bookings</a>
+        <a class="nav-link" href="../client/favorites.html">Favorites</a>
+        <a class="nav-link active" href="../client/c_messages.html">Messages</a>
+        <a class="nav-link" href="../client/c_profile.html">Profile</a>
+        <a class="nav-link" href="../client/c_settings.html">Settings</a>
+        <button onclick="logout()" class="nav-link" style="border:none; background:transparent; cursor:pointer;">
+          Logout
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="messages-grid">
+      
+      <!-- LEFT - CONVERSATIONS LIST -->
+      <div class="conversations-panel">
+        <div class="search-box">
+          <input type="text" class="search-input" placeholder="Search messages...">
+        </div>
+
+        <div class="conversations-list">
+          <!-- Conversation 1 - Active -->
+          <div class="conversation-item active">
+            <div class="avatar online">JD</div>
+            <div class="conversation-info">
+              <div class="conversation-header">
+                <div class="conversation-name">Juan dela Cruz</div>
+                <div class="conversation-time">5 min ago</div>
+              </div>
+              <div class="conversation-role">Plumbing & Electrical</div>
+              <div class="conversation-preview">I'll be there at 2 PM sharp tomorrow!</div>
+            </div>
+            <div class="unread-badge">1</div>
+          </div>
+
+          <!-- Conversation 2 -->
+          <div class="conversation-item">
+            <div class="avatar online" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">SR</div>
+            <div class="conversation-info">
+              <div class="conversation-header">
+                <div class="conversation-name">Sarah Reyes</div>
+                <div class="conversation-time">30 min ago</div>
+              </div>
+              <div class="conversation-role">Graphic Designer</div>
+              <div class="conversation-preview">I've sent you 3 design concepts to review</div>
+            </div>
+          </div>
+
+          <!-- Conversation 3 -->
+          <div class="conversation-item">
+            <div class="avatar" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">MS</div>
+            <div class="conversation-info">
+              <div class="conversation-header">
+                <div class="conversation-name">Mark Santos</div>
+                <div class="conversation-time">2 hours ago</div>
+              </div>
+              <div class="conversation-role">Math Tutor</div>
+              <div class="conversation-preview">Looking forward to our session on Friday!</div>
+            </div>
+          </div>
+
+          <!-- Conversation 4 -->
+          <div class="conversation-item">
+            <div class="avatar" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">AL</div>
+            <div class="conversation-info">
+              <div class="conversation-header">
+                <div class="conversation-name">Ana Lopez</div>
+                <div class="conversation-time">Yesterday</div>
+              </div>
+              <div class="conversation-role">House Cleaning</div>
+              <div class="conversation-preview">Booking confirmed for next week. Thank you!</div>
+            </div>
+          </div>
+
+          <!-- Conversation 5 -->
+          <div class="conversation-item">
+            <div class="avatar online" style="background: linear-gradient(135deg, #ff9a56 0%, #ff6a88 100%);">PC</div>
+            <div class="conversation-info">
+              <div class="conversation-header">
+                <div class="conversation-name">Pedro Cruz</div>
+                <div class="conversation-time">2 days ago</div>
+              </div>
+              <div class="conversation-role">Carpenter</div>
+              <div class="conversation-preview">The furniture assembly is complete!</div>
+            </div>
+          </div>
+
+          <!-- Conversation 6 -->
+          <div class="conversation-item">
+            <div class="avatar" style="background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);">LG</div>
+            <div class="conversation-info">
+              <div class="conversation-header">
+                <div class="conversation-name">Luis Garcia</div>
+                <div class="conversation-time">3 days ago</div>
+              </div>
+              <div class="conversation-role">Web Developer</div>
+              <div class="conversation-preview">I can start on your website next Monday</div>
+            </div>
+          </div>
+
+          <!-- Conversation 7 -->
+          <div class="conversation-item">
+            <div class="avatar" style="background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);">JR</div>
+            <div class="conversation-info">
+              <div class="conversation-header">
+                <div class="conversation-name">Jenny Rivera</div>
+                <div class="conversation-time">5 days ago</div>
+              </div>
+              <div class="conversation-role">English Tutor</div>
+              <div class="conversation-preview">Great session today! See you next week</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT - CHAT PANEL -->
+      <div class="chat-panel">
+        <div class="chat-header">
+          <div class="chat-header-left">
+            <div class="avatar online">JD</div>
+            <div>
+              <div class="chat-title">Juan dela Cruz</div>
+              <div class="chat-status">Online</div>
+            </div>
+          </div>
+          <div class="chat-actions">
+            <button class="icon-btn" title="Call">📞</button>
+            <button class="icon-btn" title="Video Call">📹</button>
+            <button class="icon-btn" title="More">⋮</button>
+          </div>
+        </div>
+
+        <div class="chat-messages">
+          <!-- Sent message -->
+          <div class="message sent">
+            <div>
+              <div class="message-bubble">
+                Hi Juan! I need help with my kitchen sink. It's been leaking for the past few days.
+                <span class="message-time">1:30 PM</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Received message -->
+          <div class="message">
+            <div class="avatar">JD</div>
+            <div>
+              <div class="message-bubble">
+                Hi Maria! I can definitely help with that. Can you send me a photo of the leak?
+                <span class="message-time">1:35 PM</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sent message -->
+          <div class="message sent">
+            <div>
+              <div class="message-bubble">
+                Sure! I'll take a photo now. Also, when would you be available to fix it?
+                <span class="message-time">1:40 PM</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Received message -->
+          <div class="message">
+            <div class="avatar">JD</div>
+            <div>
+              <div class="message-bubble">
+                I can come by tomorrow afternoon, around 2 PM. Does that work for you?
+                <span class="message-time">1:45 PM</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sent message -->
+          <div class="message sent">
+            <div>
+              <div class="message-bubble">
+                Perfect! Tomorrow at 2 PM works great. How much do you estimate it will cost?
+                <span class="message-time">1:50 PM</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Received message -->
+          <div class="message">
+            <div class="avatar">JD</div>
+            <div>
+              <div class="message-bubble">
+                Based on what you've described, it should be around ₱800-1,200 including parts. I'll give you an exact quote once I see it.
+                <span class="message-time">1:55 PM</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sent message -->
+          <div class="message sent">
+            <div>
+              <div class="message-bubble">
+                Sounds good! See you tomorrow at 2 PM. My address is 456 Oak Ave, Quezon City.
+                <span class="message-time">2:00 PM</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Received message -->
+          <div class="message">
+            <div class="avatar">JD</div>
+            <div>
+              <div class="message-bubble">
+                I'll be there at 2 PM sharp tomorrow! See you then 👍
+                <span class="message-time">2:05 PM</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="chat-input-area">
+          <div class="chat-input-wrapper">
+            <textarea class="chat-input" placeholder="Type your message..." rows="1"></textarea>
+            <button class="send-btn">Send</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    // Auto-resize textarea
+    const textarea = document.querySelector('.chat-input');
+    if (textarea) {
+      textarea.addEventListener('input', function() {
+        this.style.height = 'auto';
+        this.style.height = Math.min(this.scrollHeight, 120) + 'px';
+      });
+    }
+
+    // Mobile conversation switching
+    const conversationItems = document.querySelectorAll('.conversation-item');
+    conversationItems.forEach(item => {
+      item.addEventListener('click', function() {
+        if (window.innerWidth <= 900) {
+          document.querySelector('.conversations-panel').classList.add('hidden');
+          document.querySelector('.chat-panel').classList.add('active');
+        }
+        
+        conversationItems.forEach(i => i.classList.remove('active'));
+        this.classList.add('active');
+      });
+    });
+  </script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+  <script src="/js/firebase.js"></script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/auth-check.js"></script>
+</body>
+</html>

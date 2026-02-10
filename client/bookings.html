@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Bookings - SerbBisyo</title>
+  <link rel="stylesheet" href="../css/navbar.css">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
+    body { background: #f9fafb; }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 24px 16px;
+    }
+
+    .page-header {
+  margin-bottom: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.page-header-content {
+  flex: 1;
+}
+
+.page-header h1 {
+  font-size: 28px;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 8px;
+}
+
+.page-header p {
+  font-size: 15px;
+  color: #6b7280;
+}
+
+.btn-request-service {
+      padding: 12px 24px;
+      background: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      white-space: nowrap;
+      transition: all 0.2s;
+    }
+
+    .btn-request-service:hover {
+      background: #1d4ed8;
+    }
+    /* Tabs */
+    .tabs {
+      background: white;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 8px;
+      margin-bottom: 24px;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+
+    .tab {
+      padding: 10px 20px;
+      border-radius: 8px;
+      border: none;
+      background: transparent;
+      color: #6b7280;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .tab:hover {
+      background: #f3f4f6;
+      color: #111827;
+    }
+
+    .tab.active {
+      background: #2563eb;
+      color: white;
+    }
+
+    .tab-badge {
+      background: rgba(255,255,255,0.2);
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .tab.active .tab-badge {
+      background: rgba(255,255,255,0.3);
+    }
+
+    /* Bookings List */
+    .bookings-container {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .booking-card {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+    .booking-card:hover {
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      border-color: #d1d5db;
+    }
+
+    .booking-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+    .booking-main {
+      flex: 1;
+      min-width: 250px;
+    }
+
+  .booking-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #111827;
+  }
+  .booking-subtitle {
+    font-size: 14px;
+    color: #6b7280;
+    margin-top: 2px;
+  }
+    .booking-id {
+      font-size: 13px;
+      color: #9ca3af;
+      margin-bottom: 8px;
+    }
+
+    .booking-info {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 16px;
+      background: #f9fafb;
+      padding: 14px;
+      border-radius: 10px;
+    }
+    .info-item {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .info-label {
+      font-size: 12px;
+      color: #6b7280;
+    }
+
+.info-value {
+  font-size: 14px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.info-value.price {
+  color: #2563eb;
+}
+
+.status-badge {
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.status-open {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.booking-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+    .provider-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .provider-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 700;
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+
+    .provider-details {
+      flex: 1;
+    }
+
+    .provider-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: #111827;
+      margin-bottom: 2px;
+    }
+
+    .provider-rating {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 12px;
+      color: #6b7280;
+    }
+
+    .provider-rating .stars {
+      color: #fbbf24;
+    }
+
+    /* Status Badge */
+    .status-badge {
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 600;
+      white-space: nowrap;
+      align-self: flex-start;
+    }
+
+    .status-pending {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .status-confirmed {
+      background: #d1fae5;
+      color: #065f46;
+    }
+
+    .status-inprogress {
+      background: #dbeafe;
+      color: #1e40af;
+    }
+
+    .status-completed {
+      background: #f3f4f6;
+      color: #374151;
+    }
+
+    .status-cancelled {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    /* Booking Details Grid */
+    .booking-details {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      padding: 16px;
+      background: #f9fafb;
+      border-radius: 10px;
+      margin-bottom: 16px;
+    }
+
+    .detail-item {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .detail-label {
+      font-size: 12px;
+      color: #6b7280;
+      font-weight: 500;
+    }
+
+    .detail-value {
+      font-size: 14px;
+      color: #111827;
+      font-weight: 600;
+    }
+
+    .detail-value.price {
+      font-size: 18px;
+      color: #2563eb;
+    }
+
+    /* Progress Timeline (for In Progress bookings) */
+    .progress-timeline {
+      padding: 16px;
+      background: #f0f9ff;
+      border: 1px solid #bfdbfe;
+      border-radius: 10px;
+      margin-bottom: 16px;
+    }
+
+    .timeline-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: #1e40af;
+      margin-bottom: 12px;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 8px;
+      background: #dbeafe;
+      border-radius: 999px;
+      overflow: hidden;
+      margin-bottom: 8px;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: #2563eb;
+      border-radius: 999px;
+      transition: width 0.3s;
+    }
+
+    .progress-text {
+      font-size: 12px;
+      color: #1e40af;
+      text-align: center;
+    }
+
+    /* Action Buttons */
+    .booking-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: all 0.2s;
+    }
+
+    .btn-primary {
+      background: #2563eb;
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: #1d4ed8;
+    }
+
+    .btn-secondary {
+      background: white;
+      border: 1px solid #d1d5db;
+      color: #374151;
+    }
+
+    .btn-secondary:hover {
+      background: #f9fafb;
+    }
+
+    .btn-success {
+      background: #16a34a;
+      color: white;
+    }
+
+    .btn-success:hover {
+      background: #15803d;
+    }
+
+    .btn-danger {
+      background: #dc2626;
+      color: white;
+    }
+
+    .btn-danger:hover {
+      background: #b91c1c;
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 1px solid #2563eb;
+      color: #2563eb;
+    }
+
+    .btn-outline:hover {
+      background: #eff6ff;
+    }
+
+    /* Empty State */
+    .empty-state {
+      background: white;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 60px 20px;
+      text-align: center;
+    }
+
+    .empty-icon {
+      font-size: 64px;
+      margin-bottom: 16px;
+      opacity: 0.4;
+    }
+
+    .empty-state h3 {
+      font-size: 18px;
+      color: #111827;
+      margin-bottom: 8px;
+    }
+
+    .empty-state p {
+      font-size: 14px;
+      color: #6b7280;
+      margin-bottom: 20px;
+    }
+
+    /* Rating Modal Overlay */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .modal {
+      background: white;
+      border-radius: 16px;
+      padding: 32px;
+      max-width: 500px;
+      width: 100%;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+    }
+
+    .modal h3 {
+      font-size: 20px;
+      color: #111827;
+      margin-bottom: 20px;
+    }
+
+    .star-rating {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 20px;
+      font-size: 32px;
+      justify-content: center;
+    }
+
+    .star-rating span {
+      cursor: pointer;
+      color: #d1d5db;
+      transition: color 0.2s;
+    }
+
+    .star-rating span.active,
+    .star-rating span:hover {
+      color: #fbbf24;
+    }
+
+    .modal textarea {
+      width: 100%;
+      min-height: 100px;
+      padding: 12px;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      font-size: 14px;
+      font-family: Arial, sans-serif;
+      resize: vertical;
+      margin-bottom: 20px;
+    }
+
+    .modal textarea:focus {
+      outline: none;
+      border-color: #2563eb;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: flex-end;
+    }
+
+    @media (max-width: 768px) {
+  .page-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .booking-header {
+    flex-direction: column;
+  }
+
+  .btn-request-service {
+    width: 100%;
+    text-align: center;
+  }
+
+  .booking-details {
+    grid-template-columns: 1fr;
+  }
+
+  .booking-actions {
+    flex-direction: column;
+  }
+
+  .btn {
+    width: 100%;
+  }
+      .booking-header {
+        flex-direction: column;
+      }
+
+      .btn-request-service {
+        width: 100%;
+        text-align: center;
+      }
+
+      .booking-details {
+        grid-template-columns: 1fr;
+      }
+
+      .booking-actions {
+        flex-direction: column;
+      }
+
+      .btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="nav-inner">
+      <div class="nav-left">
+        <a href="index.html" class="logo-box">
+          <span class="logo-text">S</span>
+        </a>
+        <div class="nav-title">
+          <div class="nav-sub">SerbBisyo</div>
+        </div>
+      </div>
+
+      <div class="nav-links">
+        <a class="nav-link" href="../client/c_dashboard.html">Home</a>
+        <a class="nav-link" href="../client/browse.html">Browse Services</a>
+        <a class="nav-link active" href="../client/bookings.html">My Bookings</a>
+        <a class="nav-link" href="../client/favorites.html">Favorites</a>
+        <a class="nav-link" href="../client/c_messages.html">Messages</a>
+        <a class="nav-link" href="../client/c_profile.html">Profile</a>
+        <a class="nav-link" href="../client/c_settings.html">Settings</a>
+        <button onclick="logout()" class="nav-link" style="border:none; background:transparent; cursor:pointer;">
+          Logout
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+
+    <!-- Page Header -->
+<div class="page-header">
+  <div class="page-header-content">
+    <h1>My Bookings</h1>
+    <p>Manage and track all your service bookings</p>
+  </div>
+  <a href="create-booking.html" class="btn-request-service">
+    + Request Service
+  </a>
+</div>
+
+    <!-- Bookings Container -->
+    <div class="bookings-container" id="bookingsContainer"></div>
+
+  </div>
+
+  <!-- Rating Modal -->
+  <div class="modal-overlay" id="ratingModal">
+    <div class="modal">
+      <h3>Rate Your Experience</h3>
+      <p style="color: #6b7280; margin-bottom: 20px;" id="ratingProviderName"></p>
+      
+      <div class="star-rating" id="starRating">
+        <span data-rating="1">☆</span>
+        <span data-rating="2">☆</span>
+        <span data-rating="3">☆</span>
+        <span data-rating="4">☆</span>
+        <span data-rating="5">☆</span>
+      </div>
+
+      <textarea placeholder="Share your experience with this service provider (optional)..." id="reviewText"></textarea>
+
+      <div class="modal-actions">
+        <button class="btn btn-secondary" onclick="closeRatingModal()">Cancel</button>
+        <button class="btn btn-primary" onclick="submitRating()">Submit Rating</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let currentRating = 0;
+    let currentBookingId = '';
+
+    function viewBookingDetails(id) {
+      window.location.href = `booking-details.html?id=${id}`;
+    }
+
+    function messageProvider(providerName) {
+      alert(`Opening message thread with ${providerName}...`);
+      // In real app: window.location.href = 'messages.html?provider=' + encodeURIComponent(providerName);
+    }
+
+    function cancelBooking(bookingId) {
+      if (confirm('Are you sure you want to cancel this booking? You may be eligible for a refund based on the cancellation policy.')) {
+        alert(`Booking ${bookingId} has been cancelled. Refund will be processed within 3-5 business days.`);
+        // In real app: make API call to cancel booking
+      }
+    }
+
+    function rescheduleBooking(bookingId) {
+      alert(`Rescheduling booking ${bookingId}. This will open the calendar to select a new date and time.`);
+      // In real app: window.location.href = 'reschedule.html?booking=' + bookingId;
+    }
+
+    function markComplete(bookingId) {
+      if (confirm('Mark this booking as complete? This will finalize the payment to the provider.')) {
+        alert(`Booking ${bookingId} marked as complete!`);
+        // In real app: update status and show rating modal
+        setTimeout(() => {
+          openRatingModal(bookingId, 'Sarah Reyes');
+        }, 500);
+      }
+    }
+
+    function bookAgain(providerName) {
+      alert(`Redirecting to ${providerName}'s profile to book again...`);
+      // In real app: window.location.href = 'provider-profile.html?name=' + encodeURIComponent(providerName);
+    }
+
+    function joinMeeting(bookingId) {
+      alert(`Launching video call for booking ${bookingId}...`);
+      // In real app: open video call interface or redirect to meeting link
+    }
+
+    // Rating Modal Functions
+    function openRatingModal(bookingId, providerName) {
+      currentBookingId = bookingId;
+      currentRating = 0;
+      document.getElementById('ratingProviderName').textContent = `How was your experience with ${providerName}?`;
+      document.getElementById('reviewText').value = '';
+      document.getElementById('ratingModal').classList.add('active');
+      
+      // Reset stars
+      document.querySelectorAll('#starRating span').forEach(star => {
+        star.classList.remove('active');
+        star.textContent = '☆';
+      });
+    }
+
+    function closeRatingModal() {
+      document.getElementById('ratingModal').classList.remove('active');
+    }
+
+    function submitRating() {
+      if (currentRating === 0) {
+        alert('Please select a star rating before submitting.');
+        return;
+      }
+
+      const review = document.getElementById('reviewText').value;
+      alert(`Thank you for your ${currentRating}-star rating!\n\nYour feedback helps maintain quality service on SerbBisyo.`);
+      closeRatingModal();
+      
+      // In real app: submit rating to backend
+    }
+
+    // Star Rating Interaction
+    document.querySelectorAll('#starRating span').forEach(star => {
+      star.addEventListener('click', function() {
+        currentRating = parseInt(this.dataset.rating);
+        updateStars(currentRating);
+      });
+
+      star.addEventListener('mouseenter', function() {
+        const hoverRating = parseInt(this.dataset.rating);
+        updateStars(hoverRating);
+      });
+    });
+
+    document.getElementById('starRating').addEventListener('mouseleave', function() {
+      updateStars(currentRating);
+    });
+
+    function updateStars(rating) {
+      document.querySelectorAll('#starRating span').forEach((star, index) => {
+        if (index < rating) {
+          star.classList.add('active');
+          star.textContent = '★';
+        } else {
+          star.classList.remove('active');
+          star.textContent = '☆';
+        }
+      });
+    }
+
+    // Close modal when clicking outside
+    document.getElementById('ratingModal').addEventListener('click', function(e) {
+      if (e.target === this) {
+        closeRatingModal();
+      }
+    });
+  </script>
+  <script>
+  const container = document.getElementById("bookingsContainer");
+  const bookings = JSON.parse(localStorage.getItem("bookings")) || [];
+
+  container.innerHTML = "";
+
+  if (bookings.length === 0) {
+    container.innerHTML = `
+      <div class="empty-state">
+        <div class="empty-icon">📭</div>
+        <h3>No bookings yet</h3>
+        <p>Your posted jobs will appear here.</p>
+      </div>
+    `;
+  } else {
+    bookings.forEach(b => {
+      const card = document.createElement("div");
+      card.className = "booking-card";
+      card.id = b.id;
+
+      card.innerHTML = `
+        <div class="booking-header">
+          <div>
+            <div class="booking-title">${b.title}</div>
+            <div class="booking-subtitle">${b.category}</div>
+          </div>
+          <span class="status-badge status-open">Open</span>
+        </div>
+
+        <div class="booking-info">
+          <div class="info-item">
+            <span class="info-label">Location</span>
+            <span class="info-value">${b.location}</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">Budget</span>
+            <span class="info-value price">${b.budget}</span>
+          </div>
+        </div>
+
+        <div class="booking-actions">
+          <button class="btn btn-secondary" onclick="viewBookingDetails('${b.id}')">
+            View Details
+          </button>
+          <button class="btn btn-danger" onclick="cancelBooking('${b.id}')">
+            Cancel
+          </button>
+        </div>
+      `;
+
+      container.appendChild(card);
+    });
+  }
+
+  function viewBookingDetails(id) {
+  // Save the booking ID so the next page can read it
+  localStorage.setItem("activeBookingId", id);
+
+  // Go to the details page
+  window.location.href = "booking-details.html";
+}
+
+  function cancelBooking(id) {
+  if (!confirm("Cancel this booking?")) return;
+
+  let bookings = JSON.parse(localStorage.getItem("bookings")) || [];
+
+  bookings = bookings.filter(b => b.id !== id);
+
+  localStorage.setItem("bookings", JSON.stringify(bookings));
+
+  const card = document.getElementById(id);
+  if (card) card.remove();
+}
+
+</script>
+
+
+
+
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+  <script src="/js/firebase.js"></script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/auth-check.js"></script>
+</body>
+</html>
