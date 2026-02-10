@@ -652,14 +652,6 @@
       alert(`Opening message thread with ${providerName}...`);
       // In real app: window.location.href = 'messages.html?provider=' + encodeURIComponent(providerName);
     }
-
-    function cancelBooking(bookingId) {
-      if (confirm('Are you sure you want to cancel this booking? You may be eligible for a refund based on the cancellation policy.')) {
-        alert(`Booking ${bookingId} has been cancelled. Refund will be processed within 3-5 business days.`);
-        // In real app: make API call to cancel booking
-      }
-    }
-
     function rescheduleBooking(bookingId) {
       alert(`Rescheduling booking ${bookingId}. This will open the calendar to select a new date and time.`);
       // In real app: window.location.href = 'reschedule.html?booking=' + bookingId;
@@ -826,7 +818,18 @@
 
   const card = document.getElementById(id);
   if (card) card.remove();
+  
+    if (bookings.length === 0) {
+    document.getElementById("bookingsContainer").innerHTML = `
+      <div class="empty-state">
+        <div class="empty-icon">📭</div>
+        <h3>No bookings yet</h3>
+        <p>Your posted jobs will appear here.</p>
+      </div>
+    `;
+  }
 }
+
 
 </script>
 
@@ -841,4 +844,5 @@
   <script src="/js/auth.js"></script>
   <script src="/js/auth-check.js"></script>
 </body>
+
 </html>
