@@ -600,9 +600,11 @@
           applications[b.id].push("provider-demo");
           localStorage.setItem("applications", JSON.stringify(applications));
 
-          alert("Application submitted!");
+         
           applyBtn.textContent = "Applied";
           applyBtn.disabled = true;
+          applyBtn.style.background = "#9ca3af";
+
         });
 
         listContainer.appendChild(card);
