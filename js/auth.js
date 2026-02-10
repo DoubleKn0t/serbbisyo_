@@ -1,4 +1,3 @@
-// js/auth.js
 
 const auth = firebase.auth();
 const db = firebase.firestore();
@@ -43,3 +42,4 @@ function logout() {
       alert("Failed to log out.");
     });
 }
+
